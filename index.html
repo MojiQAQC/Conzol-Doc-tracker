@@ -608,8 +608,6 @@
 
     thead tr.sub th.th-more {
       background: var(--ink-dim);
-      white-space: nowrap;
-      word-break: normal;
     }
 
     /* ป้าย "Overdue N" ในแถบหัวกลุ่ม + แถวสรุป "Overdue รวมทุกโปรเจกต์" ใต้หัวคอลัมน์ — รวมทั้ง 8 โครงการ */
@@ -2331,7 +2329,7 @@
                   <th class="th-chg">DCR</th>
                   <th class="th-chg">VO</th>
                   <th class="th-comp">Punchlist</th>
-                  <th class="th-more">Overdue</th>
+                  <th class="th-more">Total<br>Pending</th>
                 </tr>
                 <tr class="tot" id="totRow"></tr>
               </thead>
@@ -2698,10 +2696,18 @@
       return `<button type="button" class="expand-btn" onclick="${onclickCall}" aria-label="ดูรายละเอียด">${expandChevronSvg()}</button>`;
     }
 
-    // รวมเอกสารที่ยังค้าง (open) ทุกประเภทของโครงการ — ใช้ทั้งแสดงในคอลัมน์ คงค้าง และ sort
+    // รวมเอกสารที่ยังค้าง (open) ทุกประเภทของโครงการ — คำนวณจริงจากทุกกลุ่ม
+    function projectTotalPending(d) {
+      const drawPending = Math.max(0, d.draw.plan - d.draw.actual);
+      const itpPending = 3 - itpTotal(d);
+      const itrInp = d.docs && d.docs.itr ? d.docs.itr.inProcess : Math.round((d.itr || 0) * 0.4);
+      const corrPending = (d.ncrO || 0) + (d.ncrE || 0) + (d.carO || 0) + (d.carE || 0);
+      const chgPending = (d.fcrOpen || 0) + (d.dcrOpen || 0) + (d.voOpen || 0);
+      const compPending = (d.a || 0) + (d.b || 0);
+      return drawPending + itpPending + (d.rfiOpen || 0) + itrInp + corrPending + chgPending + compPending;
+    }
     function totalOpenDocs(d) {
-      const itrInp = d.docs && d.docs.itr ? d.docs.itr.inProcess : 0;
-      return d.rfiOpen + itrInp + d.ncrO + d.ncrE + d.carO + d.carE + d.fcrOpen + d.dcrOpen + d.voOpen + (d.a + d.b);
+      return projectTotalPending(d);
     }
 
     // ===== ก้อนตัวเลขเดียว + กดขยายดูรายละเอียด — ใช้กับทุกคอลัมน์เอกสารในตาราง =====
@@ -2719,7 +2725,7 @@
       dcr: { label: 'DCR', isDoc: true, open: d => d.dcrOpen, closed: d => d.dcrClosed },
       vo: { label: 'VO', isDoc: true, open: d => d.voOpen, closed: d => d.voClosed },
       punch: { label: 'Punchlist', open: d => ((d.a || 0) + (d.b || 0)), mid: 10, hi: 20, noExpand: true },
-      overdue: { label: 'Overdue', open: d => d.overdue, mid: 8, hi: 18, custom: 'overdue', blink: true },
+      overdue: { label: 'Total Pending', open: d => projectTotalPending(d), mid: 40, hi: 75, custom: 'overdue' },
       draw: { label: 'Drawing', custom: 'draw' },
     };
 
@@ -2786,9 +2792,20 @@
       ${itpTile(d.itp.ee, 'EE')}`;
       }
       if (key === 'overdue') {
-        return `<span class="disc-wrap-lbl">เอกสาร Overdue (${d.p}):</span>
-      ${tile(d.overdue, 'Overdue', heatLevel(d.overdue, cfg.mid, cfg.hi))}
-      ${tile(d.overdueTotal, 'ทั้งหมดที่ติดตาม', null)}`;
+        const drawP = Math.max(0, d.draw.plan - d.draw.actual);
+        const itpP = 3 - itpTotal(d);
+        const itrP = (d.docs && d.docs.itr ? d.docs.itr.inProcess : Math.round((d.itr || 0) * 0.4));
+        const corrP = (d.ncrO || 0) + (d.ncrE || 0) + (d.carO || 0) + (d.carE || 0);
+        const chgP = (d.fcrOpen || 0) + (d.dcrOpen || 0) + (d.voOpen || 0);
+        const compP = (d.a || 0) + (d.b || 0);
+        const totalP = projectTotalPending(d);
+        return `<span class="disc-wrap-lbl">ค้างรวมทุกประเภท (${d.p}):</span>
+      ${tile(drawP, 'Drawing', null)}
+      ${tile((d.rfiOpen || 0) + itrP + itpP, 'Control', null)}
+      ${tile(corrP, 'Corrective', null)}
+      ${tile(chgP, 'Change', null)}
+      ${tile(compP, 'Complete', null)}
+      ${tile(totalP, 'รวมทั้งหมด', 'high')}`;
       }
       if (cfg.isDoc) {
         return renderDocTrackerCards(d, key);
