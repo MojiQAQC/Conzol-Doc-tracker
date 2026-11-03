@@ -113,7 +113,7 @@ h1,h2,h3{font-family:"Sarabun","IBM Plex Sans Thai",sans-serif; margin:0;}
 .toolbar .tb-count{margin-left:auto; font-size:11px; color:var(--ink-dim); white-space:nowrap;}
 
 table{border-collapse:collapse; width:100%; table-layout:fixed; font-size:14px;}
-colgroup col.c-proj{width:10.5%;} colgroup col.c-draw{width:10%;} colgroup col.c-num{width:4.8%;} colgroup col.c-wide{width:6.8%;}
+colgroup col.c-proj{width:11%;} colgroup col.c-draw{width:10.5%;} colgroup col.c-num{width:5.2%;} colgroup col.c-wide{width:7.2%;}
 
 /* แถวหัวกลุ่มบนสุด (Baseline/Control/Corrective/Change/Complete) — เพิ่มเหนือแถวชื่อคอลัมน์ย่อย สีพื้นเดียวกับกลุ่ม */
 thead tr.grp th{ padding:5px 3px 5px; font-size:10px; font-weight:700; color:#fff; text-align:center;
@@ -560,7 +560,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
             <col class="c-proj"><col class="c-draw"><col class="c-num"><col class="c-num"><col class="c-num">
             <col class="c-wide"><col class="c-wide"><col class="c-wide"><col class="c-wide">
             <col class="c-wide"><col class="c-wide"><col class="c-wide">
-            <col class="c-num"><col class="c-num"><col class="c-wide">
+            <col class="c-num"><col class="c-wide">
           </colgroup>
           <thead>
             <tr class="grp">
@@ -569,7 +569,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
               <th class="grp-ctrl" colspan="3"><div class="grp-cell"><span class="grp-title">② Control</span><span class="grp-pend" data-grp="ctrl"></span></div></th>
               <th class="grp-corr" colspan="4"><div class="grp-cell"><span class="grp-title">③ Corrective</span><span class="grp-pend" data-grp="corr"></span></div></th>
               <th class="grp-chg" colspan="3"><div class="grp-cell"><span class="grp-title">④ Change</span><span class="grp-pend" data-grp="chg"></span></div></th>
-              <th class="grp-comp" colspan="2"><div class="grp-cell"><span class="grp-title">⑤ Complete</span><span class="grp-pend" data-grp="comp"></span></div></th>
+              <th class="grp-comp"><div class="grp-cell"><span class="grp-title">⑤ Complete</span><span class="grp-pend" data-grp="comp"></span></div></th>
               <th class="grp-more"></th>
             </tr>
             <tr class="sub">
@@ -585,8 +585,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
               <th class="th-chg">FCR</th>
               <th class="th-chg">DCR</th>
               <th class="th-chg">VO</th>
-              <th class="th-comp">Punchlist<br><span class="th-flow">ชุด A</span></th>
-              <th class="th-comp">Punchlist<br><span class="th-flow">ชุด B</span></th>
+              <th class="th-comp">Punchlist</th>
               <th class="th-more">เกินกำหนด</th>
             </tr>
             <tr class="tot" id="totRow"></tr>
@@ -595,7 +594,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
         </table>
       </div>
       <div class="foot-note">
-ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น (รวม In Process + Approved ทั้งหมด ไม่จำกัดว่าส่งทาง Submittal หรือ Transmittal ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist ชุด A/ชุด B และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Approved, Over Due)<br>
+ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น (รวม In Process + Approved ทั้งหมด ไม่จำกัดว่าส่งทาง Submittal หรือ Transmittal ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Approved, Over Due)<br>
 แถว <b>Overdue รวม</b> ใต้หัวคอลัมน์ และป้าย <b>Overdue N</b> ที่หัวกลุ่ม = <b>ยอดเอกสารที่ยังค้าง/เกินกำหนดและยังไม่ approved</b> รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter) คนละความหมายกับตัวเลขในแถวโครงการที่เป็นยอด Total — RFI/ITR/NCR/CAR/FCR/DCR/VO นับเฉพาะรายการที่ยังค้าง · ITP = สาขาที่ยังไม่ส่ง · Drawing = แผน − ที่มีแล้ว (ส่วนที่เกินแผนไม่หักลบ)<br>
 สีของช่อง RFI/ITR/NCR/CAR/FCR/DCR/VO: <b>แดงกระพริบเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due) เกิน 3 ฉบับ</b> ส่วนรายการที่ค้างไม่เกิน 3 หรืออยู่ระหว่างดำเนินการตามปกติ (In Process) จะไม่ขึ้นสีแดงกระพริบ · ส่วน Punchlist/เกินกำหนด/Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
 Progress โครงการ (แผงขวา) เป็นข้อมูลหน้างานจริงจาก S-Curve/SharePoint คนละชุดกับ Drawing ที่มาจาก Conzol<br>
@@ -621,7 +620,7 @@ Progress โครงการ (แผงขวา) เป็นข้อมู�
     <div class="li li2"><span class="ico">②</span><div class="tx"><b>Control</b><span>ITP=ส่งแล้วกี่สาขา (สูงสุด 3) · RFI/ITR ติดตาม Total, In Process, Approved, Over Due</span></div></div>
     <div class="li li3"><span class="ico">③</span><div class="tx"><b>Corrective</b><span>NCR=major · CAR=minor · ติดตาม In Process และค้างเฉลี่ย</span></div></div>
     <div class="li li4"><span class="ico">④</span><div class="tx"><b>Change</b><span>FCR=ผรม.ขอแก้ · DCR=EX คำนวณใหม่ · VO=เพิ่ม cost</span></div></div>
-    <div class="li li5"><span class="ico">⑤</span><div class="tx"><b>Complete</b><span>Punchlist A/B ต้องปิดก่อน Commission</span></div></div>
+    <div class="li li5"><span class="ico">⑤</span><div class="tx"><b>Complete</b><span>Punchlist ต้องปิดก่อน Commission</span></div></div>
   </div>
   </div>
   <!-- ===== /view-table ===== -->
@@ -924,8 +923,7 @@ const colDefs = {
   fcr:     {label:'FCR',            isDoc:true, open:d=>d.fcrOpen, closed:d=>d.fcrClosed},
   dcr:     {label:'DCR',            isDoc:true, open:d=>d.dcrOpen, closed:d=>d.dcrClosed},
   vo:      {label:'VO',             isDoc:true, open:d=>d.voOpen,  closed:d=>d.voClosed},
-  puncha:  {label:'Punchlist ชุด A', open:d=>d.a,       mid:4,  hi:7,  noExpand:true},
-  punchb:  {label:'Punchlist ชุด B', open:d=>d.b,       mid:8,  hi:14, noExpand:true},
+  punch:   {label:'Punchlist',      open:d=>((d.a||0)+(d.b||0)), mid:10, hi:20, noExpand:true},
   overdue: {label:'เกินกำหนด',       open:d=>d.overdue, mid:8,  hi:18, custom:'overdue', blink:true},
   draw:    {label:'Drawing',        custom:'draw'},
 };
@@ -1048,12 +1046,11 @@ function renderTable(list){
     <td>${mchip(d,'fcr')}</td>
     <td>${mchip(d,'dcr')}</td>
     <td>${mchip(d,'vo')}</td>
-    <td>${mchip(d,'puncha')}</td>
-    <td>${mchip(d,'punchb')}</td>
+    <td>${mchip(d,'punch')}</td>
     <td>${mchip(d,'overdue')}</td>
   </tr>
   <tr class="detail-row" id="detail-row-${d.site}" style="display:none;">
-    <td colspan="15">
+    <td colspan="14">
       <div class="disc-wrap" id="detail-content-${d.site}"></div>
     </td>
   </tr>`;
@@ -1151,11 +1148,11 @@ const pendFns = {
   draw: d => Math.max(0, d.draw.plan - d.draw.actual),
   itp:  d => 3 - itpTotal(d),
 };
-['rfi','itr','ncrO','ncrE','carO','carE','fcr','dcr','vo','puncha','punchb','overdue'].forEach(k => { pendFns[k] = colDefs[k].open; });
+['rfi','itr','ncrO','ncrE','carO','carE','fcr','dcr','vo','punch','overdue'].forEach(k => { pendFns[k] = colDefs[k].open; });
 const pendCols = [ // [key, กลุ่ม] ตามลำดับคอลัมน์ในตาราง
   ['draw','base'], ['itp','ctrl'], ['rfi','ctrl'], ['itr','ctrl'],
   ['ncrO','corr'], ['ncrE','corr'], ['carO','corr'], ['carE','corr'],
-  ['fcr','chg'], ['dcr','chg'], ['vo','chg'], ['puncha','comp'], ['punchb','comp'], ['overdue','more'],
+  ['fcr','chg'], ['dcr','chg'], ['vo','chg'], ['punch','comp'], ['overdue','more'],
 ];
 function renderPendingTotals(){
   const row = document.getElementById('totRow');
