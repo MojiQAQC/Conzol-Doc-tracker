@@ -344,10 +344,10 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
   padding:0 12px; font-size:28px; font-weight:700; color:#fff; line-height:1;
   font-family:"IBM Plex Sans",sans-serif;
 }
-/* Card 1: Submitted - Gray */
-.cz-c-submitted .cz-card-num-box{background:#9e9e9e;}
-.cz-c-submitted .cz-pbar{border:1px solid #d1d5db; background:#f3f4f6;}
-.cz-c-submitted .cz-pfill{background:#9e9e9e;}
+/* Card 1: Total - Gray */
+.cz-c-total .cz-card-num-box, .cz-c-submitted .cz-card-num-box{background:#9e9e9e;}
+.cz-c-total .cz-pbar, .cz-c-submitted .cz-pbar{border:1px solid #d1d5db; background:#f3f4f6;}
+.cz-c-total .cz-pfill, .cz-c-submitted .cz-pfill{background:#9e9e9e;}
 
 /* Card 2: In Process - Cyan / Sky Blue */
 .cz-c-inprocess .cz-card-num-box{background:#00a2e8;}
@@ -391,7 +391,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
 :root[data-theme="dark"] .cz-card-box{box-shadow:0 1px 3px rgba(0,0,0,.3);}
 :root[data-theme="dark"] .cz-card-body{background:#1a212b;}
 :root[data-theme="dark"] .cz-card-body.cz-2cols > .cz-metric-col:first-child{border-right-color:rgba(255,255,255,.08);}
-:root[data-theme="dark"] .cz-c-submitted .cz-pbar{background:#262d38; border-color:#525b6a;}
+:root[data-theme="dark"] .cz-c-total .cz-pbar, :root[data-theme="dark"] .cz-c-submitted .cz-pbar{background:#262d38; border-color:#525b6a;}
 :root[data-theme="dark"] .cz-c-inprocess .cz-pbar{background:#0e2838;}
 :root[data-theme="dark"] .cz-c-approved .cz-pbar{background:#112d1b;}
 :root[data-theme="dark"] .cz-c-overdue .cz-pbar{background:#381313;}
@@ -399,7 +399,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
   :root:not([data-theme="light"]) .cz-card-box{box-shadow:0 1px 3px rgba(0,0,0,.3);}
   :root:not([data-theme="light"]) .cz-card-body{background:#1a212b;}
   :root:not([data-theme="light"]) .cz-card-body.cz-2cols > .cz-metric-col:first-child{border-right-color:rgba(255,255,255,.08);}
-  :root:not([data-theme="light"]) .cz-c-submitted .cz-pbar{background:#262d38; border-color:#525b6a;}
+  :root:not([data-theme="light"]) .cz-c-total .cz-pbar, :root:not([data-theme="light"]) .cz-c-submitted .cz-pbar{background:#262d38; border-color:#525b6a;}
   :root:not([data-theme="light"]) .cz-c-inprocess .cz-pbar{background:#0e2838;}
   :root:not([data-theme="light"]) .cz-c-approved .cz-pbar{background:#112d1b;}
   :root:not([data-theme="light"]) .cz-c-overdue .cz-pbar{background:#381313;}
@@ -589,7 +589,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
         </table>
       </div>
       <div class="foot-note">
-ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Submitted)</b> ของประเภทนั้น (รวม In Process + Approved ที่เคยส่งมา ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist ชุด A/ชุด B และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสารตามรูปแบบ ConZol (Submitted, In Process, Approved, Over Due)<br>
+ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น (รวม In Process + Approved ทั้งหมด ไม่จำกัดว่าส่งทาง Submittal หรือ Transmittal ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist ชุด A/ชุด B และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Approved, Over Due)<br>
 แถว <b>ค้างรวม</b> ใต้หัวคอลัมน์ และป้าย <b>ค้าง N</b> ที่หัวกลุ่ม = <b>ยอดที่ยังค้าง</b>รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter) คนละความหมายกับตัวเลขในแถวโครงการที่เป็นยอดทั้งหมด — RFI/ITR/NCR/CAR/FCR/DCR/VO นับเฉพาะ In Process · ITP = สาขาที่ยังไม่ส่ง · Drawing = แผน − ที่มีแล้ว (ส่วนที่เกินแผนไม่หักลบ)<br>
 สีของช่อง RFI/ITR/NCR/CAR/FCR/DCR/VO: <b>แดงกระพริบเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due) เกิน 3 ฉบับ</b> ส่วนรายการที่ค้างไม่เกิน 3 หรืออยู่ระหว่างดำเนินการตามปกติ (In Process) จะไม่ขึ้นสีแดงกระพริบ · ส่วน Punchlist/เกินกำหนด/Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
 Progress โครงการ (แผงขวา) เป็นข้อมูลหน้างานจริงจาก S-Curve/SharePoint คนละชุดกับ Drawing ที่มาจาก Conzol<br>
@@ -612,7 +612,7 @@ Progress โครงการ (แผงขวา) เป็นข้อมู�
   <!-- ===== Bottom legend strip ===== -->
   <div class="legendbar">
     <div class="li li1"><span class="ico">①</span><div class="tx"><b>Drawing</b><span>เทียบแบบที่แพลนไว้ กับแบบที่มีใน Conzol</span></div></div>
-    <div class="li li2"><span class="ico">②</span><div class="tx"><b>Control</b><span>ITP=ส่งแล้วกี่สาขา (สูงสุด 3) · RFI/ITR ติดตาม Submitted, In Process, Approved, Over Due</span></div></div>
+    <div class="li li2"><span class="ico">②</span><div class="tx"><b>Control</b><span>ITP=ส่งแล้วกี่สาขา (สูงสุด 3) · RFI/ITR ติดตาม Total, In Process, Approved, Over Due</span></div></div>
     <div class="li li3"><span class="ico">③</span><div class="tx"><b>Corrective</b><span>NCR=major · CAR=minor · ติดตาม In Process และค้างเฉลี่ย</span></div></div>
     <div class="li li4"><span class="ico">④</span><div class="tx"><b>Change</b><span>FCR=ผรม.ขอแก้ · DCR=EX คำนวณใหม่ · VO=เพิ่ม cost</span></div></div>
     <div class="li li5"><span class="ico">⑤</span><div class="tx"><b>Complete</b><span>Punchlist A/B ต้องปิดก่อน Commission</span></div></div>
@@ -814,11 +814,11 @@ function renderDocTrackerCards(d, key){
   const cfg = colDefs[key];
   const { registered, submitted, inProcess, approved, overdue } = getDocStats(d, key);
   return `<span class="disc-wrap-lbl">${cfg.label} (${d.p}):</span>
-    ${tile(submitted, 'Submitted', null)}
+    ${tile(submitted, 'Total', null)}
     ${tile(inProcess, 'In Process', inProcess > 0 ? 'proc' : 'none')}
     ${tile(approved, 'Approved', approved > 0 ? 'low' : null)}
     ${tile(overdue, 'Over Due', overdue > 0 ? 'high' : null)}
-    <span class="rate-note">Registered (ลงทะเบียน) = ${registered} · Submitted = In Process (${inProcess}) + Approved (${approved}) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Due Date) ส่วน In Process ยังไม่เกินกำหนดจึงไม่ขึ้นสีแดง</span>`;
+    <span class="rate-note">Total = In Process (${inProcess}) + Approved (${approved}) (รวมทั้ง Submittal และ Transmittal) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Due Date) เกิน 3 ฉบับ</span>`;
 }
 
 // ITP: แต่ละสาขา (ME/CE/EE) ส่งได้ใบเดียว เลยนับได้สูงสุด 3 ใบต่อโครงการ — ใช้ดูว่าสาขาไหนยังไม่ส่ง
@@ -945,7 +945,7 @@ function mchip(d, key){
     const val = s.submitted;
     const lvl = inProcessDocLevel(s);
     const blink = s.overdue > 3 ? ' chip-blink' : '';
-    const tooltip = `${cfg.label} (${d.p}): Submitted ${s.submitted} | In Process ${s.inProcess} | Approved ${s.approved} | Over Due ${s.overdue}`;
+    const tooltip = `${cfg.label} (${d.p}): Total ${s.submitted} | In Process ${s.inProcess} | Approved ${s.approved} | Over Due ${s.overdue}`;
     return `<div class="mchip" title="${tooltip}"><span class="chip chip-${lvl}${blink}">${val}</span>${btn}</div>`;
   }
   const open = cfg.open(d);
