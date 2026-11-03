@@ -208,16 +208,22 @@ td.projcell .sitecode{display:block; font-weight:500; font-size:11.5px; color:va
 .pending-chip .pc-val{font-size:16px; font-weight:800; line-height:1.1; color:var(--ink-dim);}
 .pending-chip .pc-lbl{font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-dim);}
 .pending-chip.pending-none{opacity:.55;}
+.pending-chip.pending-proc{background:rgba(0,162,232,.1); border-color:rgba(0,162,232,.35);}
+.pending-chip.pending-proc .pc-val{color:#008ac9;}
 .pending-chip.pending-low{background:rgba(22,163,74,.08); border-color:rgba(22,163,74,.28);}
 .pending-chip.pending-low .pc-val{color:#15803d;}
 .pending-chip.pending-mid{background:rgba(202,138,4,.1); border-color:rgba(202,138,4,.32);}
 .pending-chip.pending-mid .pc-val{color:#92620b;}
 .pending-chip.pending-high{background:rgba(220,38,38,.1); border-color:rgba(220,38,38,.34);}
 .pending-chip.pending-high .pc-val{color:#b91c1c;}
+:root[data-theme="dark"] .pending-chip.pending-proc{background:rgba(0,162,232,.15); border-color:rgba(0,162,232,.4);}
+:root[data-theme="dark"] .pending-chip.pending-proc .pc-val{color:#38bdf8;}
 :root[data-theme="dark"] .pending-chip.pending-low .pc-val{color:#4ade80;}
 :root[data-theme="dark"] .pending-chip.pending-mid .pc-val{color:#facc15;}
 :root[data-theme="dark"] .pending-chip.pending-high .pc-val{color:#f87171;}
 @media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .pending-chip.pending-proc{background:rgba(0,162,232,.15); border-color:rgba(0,162,232,.4);}
+  :root:not([data-theme="light"]) .pending-chip.pending-proc .pc-val{color:#38bdf8;}
   :root:not([data-theme="light"]) .pending-chip.pending-low .pc-val{color:#4ade80;}
   :root:not([data-theme="light"]) .pending-chip.pending-mid .pc-val{color:#facc15;}
   :root:not([data-theme="light"]) .pending-chip.pending-high .pc-val{color:#f87171;}
@@ -585,7 +591,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
       <div class="foot-note">
 ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Submitted)</b> ของประเภทนั้น (รวม In Process + Approved ที่เคยส่งมา ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist ชุด A/ชุด B และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสารตามรูปแบบ ConZol (Submitted, In Process, Approved, Over Due)<br>
 แถว <b>ค้างรวม</b> ใต้หัวคอลัมน์ และป้าย <b>ค้าง N</b> ที่หัวกลุ่ม = <b>ยอดที่ยังค้าง</b>รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter) คนละความหมายกับตัวเลขในแถวโครงการที่เป็นยอดทั้งหมด — RFI/ITR/NCR/CAR/FCR/DCR/VO นับเฉพาะ In Process · ITP = สาขาที่ยังไม่ส่ง · Drawing = แผน − ที่มีแล้ว (ส่วนที่เกินแผนไม่หักลบ)<br>
-สีของช่อง RFI/ITR/NCR/CAR/FCR/DCR/VO (เขียว/เหลือง/แดง) คำนวณจาก <b>% In Process vs Submitted = In Process ÷ Submitted × 100</b> ของประเภทนั้นในโปรเจกต์นั้นเอง (เกณฑ์: &lt;25%=ปกติ, 25–44%=เฝ้าระวัง, ≥45%=ต้องรีบดู) เพื่อเทียบโปรเจกต์ขนาดต่างกันได้แฟร์ขึ้น ดูสูตรและ breakdown เต็มได้เมื่อกดขยายแต่ละคอลัมน์ ส่วน Punchlist/เกินกำหนด/Drawing ยังใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
+สีของช่อง RFI/ITR/NCR/CAR/FCR/DCR/VO: <b>แดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due)</b> ส่วน In Process ที่ยังไม่เกินกำหนดจะไม่ขึ้นสีแดง (ปกติ=เขียว, เฝ้าระวัง=เหลือง) และช่อง Over Due จะแดงเฉพาะเมื่อมีรายการค้างจริง · ส่วน Punchlist/เกินกำหนด/Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
 Progress โครงการ (แผงขวา) เป็นข้อมูลหน้างานจริงจาก S-Curve/SharePoint คนละชุดกับ Drawing ที่มาจาก Conzol<br>
 ▲/▼ ข้างสถานะ = ค้างสุทธิเปลี่ยนไปเท่าไหร่เทียบสัปดาห์ก่อน (เอกสารเปิดใหม่ − ปิดไป) สีแดง=backlog กำลังโต ต้องรีบดู, สีเขียว=backlog กำลังลด · "ค้างเฉลี่ย" ในรายละเอียด NCR/CAR = อายุเฉลี่ยของรายการที่ยังค้างอยู่ ไม่ใช่แค่จำนวน<br>
 กดขยายคอลัมน์ Drawing จะเห็น 2 ชุด breakdown แยกกัน: แยกตามสาขา (ME/CE/EE เทียบแผน/จริง) และแยกตามประเภทเอกสาร (FS=Flowsheet, ML=Machine List, PR=Procurement List, GA=GA Drawing, LD=Load Data, FD=Fabrication Drawing — ไม่โชว์จำนวน: สีเขียว = มีเอกสารใน phase นั้นแล้ว, สีเทา = ยังไม่มี) · ตัวเลขในช่อง Drawing = มีแล้ว/แผนทั้งหมด<br>
@@ -757,12 +763,13 @@ function heatLevel(open, mid, hi){ return open===0 ? 'none' : open>=hi ? 'high' 
 // ไม่ใช้จำนวนดิบเทียบข้ามโปรเจกต์ตรงๆ เพราะแต่ละโปรเจกต์มีปริมาณงานไม่เท่ากัน โปรเจกต์ใหญ่ย่อมมีเอกสารเยอะกว่าโดยธรรมชาติ ไม่ได้แปลว่าคุณภาพแย่กว่า
 // เกณฑ์: 0% = none (ไม่มีค้าง) · <25% = low (ปกติ) · 25–44% = mid (เฝ้าระวัง) · ≥45% = high (ต้องรีบดู)
 const RATE_MID = 25, RATE_HI = 45;
-function openRatePct(open, closed){ return (open+closed) > 0 ? Math.round(open/(open+closed)*100) : 0; }
 function inProcessRatePct(inProcess, submitted){ return submitted > 0 ? Math.round(inProcess / submitted * 100) : 0; }
-function inProcessRateLevel(inProcess, submitted){
-  if(inProcess === 0) return 'none';
-  const pct = inProcessRatePct(inProcess, submitted);
-  return pct >= RATE_HI ? 'high' : pct >= RATE_MID ? 'mid' : 'low';
+function inProcessDocLevel(s){
+  if(!s) return 'none';
+  if(s.overdue > 0) return 'high'; // แดงเฉพาะช่องที่มี Over Due
+  if(s.inProcess === 0) return 'none';
+  const pct = inProcessRatePct(s.inProcess, s.submitted);
+  return pct >= RATE_HI ? 'mid' : 'low'; // In Process ยังไม่เกินกำหนด จะไม่ขึ้นสีแดง (อย่างมากเตือนสีเหลือง/ปกติสีเขียว)
 }
 function openRatePct(open, closed){ return (open+closed) > 0 ? Math.round(open/(open+closed)*100) : 0; }
 function openRateLevel(open, closed){
@@ -805,14 +812,12 @@ function getDocStats(d, key){
 function renderDocTrackerCards(d, key){
   const cfg = colDefs[key];
   const { registered, submitted, inProcess, approved, overdue } = getDocStats(d, key);
-  const pct = submitted > 0 ? Math.round(inProcess / submitted * 100) : 0;
-  const lvl = inProcess === 0 ? 'none' : pct >= RATE_HI ? 'high' : pct >= RATE_MID ? 'mid' : 'low';
   return `<span class="disc-wrap-lbl">${cfg.label} (${d.p}):</span>
     ${tile(submitted, 'Submitted', null)}
-    ${tile(inProcess, 'In Process', lvl)}
-    ${tile(approved, 'Approved', null)}
+    ${tile(inProcess, 'In Process', inProcess > 0 ? 'proc' : 'none')}
+    ${tile(approved, 'Approved', approved > 0 ? 'low' : null)}
     ${tile(overdue, 'Over Due', overdue > 0 ? 'high' : null)}
-    <span class="rate-note">Registered (ลงทะเบียน) = ${registered} · Submitted = In Process + Approved · สีของ "In Process" คำนวณจาก % In Process vs Submitted = ${inProcess} ÷ ${submitted} × 100 = ${pct}% (ไม่ใช่จำนวนดิบ) · เกณฑ์: &lt;${RATE_MID}%=ปกติ, ${RATE_MID}–${RATE_HI-1}%=เฝ้าระวัง, ≥${RATE_HI}%=ต้องรีบดู</span>`;
+    <span class="rate-note">Registered (ลงทะเบียน) = ${registered} · Submitted = In Process (${inProcess}) + Approved (${approved}) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Due Date) ส่วน In Process ยังไม่เกินกำหนดจึงไม่ขึ้นสีแดง</span>`;
 }
 
 // ITP: แต่ละสาขา (ME/CE/EE) ส่งได้ใบเดียว เลยนับได้สูงสุด 3 ใบต่อโครงการ — ใช้ดูว่าสาขาไหนยังไม่ส่ง
@@ -937,8 +942,8 @@ function mchip(d, key){
   if(cfg.isDoc){
     const s = getDocStats(d, key);
     const val = s.submitted;
-    const lvl = inProcessRateLevel(s.inProcess, s.submitted);
-    const blink = lvl === 'high' ? ' chip-blink' : '';
+    const lvl = inProcessDocLevel(s);
+    const blink = s.overdue >= 2 ? ' chip-blink' : '';
     const tooltip = `${cfg.label} (${d.p}): Submitted ${s.submitted} | In Process ${s.inProcess} | Approved ${s.approved} | Over Due ${s.overdue}`;
     return `<div class="mchip" title="${tooltip}"><span class="chip chip-${lvl}${blink}">${val}</span>${btn}</div>`;
   }
