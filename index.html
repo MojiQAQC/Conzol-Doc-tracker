@@ -113,7 +113,7 @@ h1,h2,h3{font-family:"Sarabun","IBM Plex Sans Thai",sans-serif; margin:0;}
 .toolbar .tb-count{margin-left:auto; font-size:11px; color:var(--ink-dim); white-space:nowrap;}
 
 table{border-collapse:collapse; width:100%; table-layout:fixed; font-size:14px;}
-colgroup col.c-proj{width:11%;} colgroup col.c-draw{width:10.5%;} colgroup col.c-num{width:5.2%;} colgroup col.c-wide{width:7.2%;}
+colgroup col.c-proj{width:11%;} colgroup col.c-draw{width:10.5%;} colgroup col.c-num{width:5.1%;} colgroup col.c-wide{width:7.1%;} colgroup col.c-punch{width:8%;} colgroup col.c-overdue{width:5.5%;}
 
 /* แถวหัวกลุ่มบนสุด (Baseline/Control/Corrective/Change/Complete) — เพิ่มเหนือแถวชื่อคอลัมน์ย่อย สีพื้นเดียวกับกลุ่ม */
 thead tr.grp th{ padding:5px 3px 5px; font-size:10px; font-weight:700; color:#fff; text-align:center;
@@ -144,7 +144,7 @@ thead tr.sub th.th-base{background:var(--base);}
 thead tr.sub th.th-ctrl{background:var(--ctrl);}
 thead tr.sub th.th-corr{background:var(--corr);}
 thead tr.sub th.th-chg{background:var(--chg);}
-thead tr.sub th.th-comp{background:var(--comp);}
+thead tr.sub th.th-comp{background:var(--comp); white-space:nowrap; word-break:normal;}
 thead tr.sub th.th-more{background:var(--ink-dim);}
 
 /* ป้าย "Overdue N" ในแถบหัวกลุ่ม + แถวสรุป "Overdue รวมทุกโปรเจกต์" ใต้หัวคอลัมน์ — รวมทั้ง 8 โครงการ */
@@ -560,7 +560,7 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
             <col class="c-proj"><col class="c-draw"><col class="c-num"><col class="c-num"><col class="c-num">
             <col class="c-wide"><col class="c-wide"><col class="c-wide"><col class="c-wide">
             <col class="c-wide"><col class="c-wide"><col class="c-wide">
-            <col class="c-num"><col class="c-wide">
+            <col class="c-punch"><col class="c-overdue">
           </colgroup>
           <thead>
             <tr class="grp">
