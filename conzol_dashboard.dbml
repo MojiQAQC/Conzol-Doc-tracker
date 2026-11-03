@@ -1,0 +1,256 @@
+// Logical schema for the ConZol QA/QC comparison dashboard.
+// Paste this file into https://dbdiagram.io/.
+//
+// Design notes:
+// - The current dashboard is a static HTML prototype. Its `data` array is the
+//   source for the visible KPI table, while `trendData` is sample weekly data.
+// - Raw document-register rows are kept separate from derived dashboard
+//   snapshots so the dashboard can be recalculated from source files.
+// - File 04 and File 06 use different source names for some concepts. Normalize
+//   them during import: WBS/WBSID -> wbs_id, TRANSMITTAL_DATE/TRANSMITAL_DATE
+//   -> transmittal_date, RETDATE/RETURNDATE -> return_date.
+
+Enum project_status {
+  active
+  closed
+  on_hold
+}
+
+Enum document_group {
+  baseline
+  control
+  corrective
+  change
+  complete
+  other
+}
+
+Enum document_scope {
+  project
+  discipline
+  document_type
+}
+
+Enum review_flow {
+  owner_to_eps
+  eps_to_contractor
+  internal
+  none
+}
+
+Enum punchlist_set {
+  A
+  B
+}
+
+Table projects {
+  id bigint [pk, increment]
+  project_code varchar(80) [not null, unique, note: 'Source PROJECTID, for example SKK-IM-CM-26002']
+  project_name varchar(200)
+  site_code varchar(50) [not null, unique, note: 'Dashboard site code, for example SKK-01']
+  status project_status [not null, default: 'active']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table disciplines {
+  id bigint [pk, increment]
+  code varchar(20) [not null, unique, note: 'ME, CE, EE, etc.']
+  name varchar(150) [not null]
+}
+
+Table document_types {
+  id bigint [pk, increment]
+  code varchar(30) [not null, unique, note: 'RFI, ITR, ITP, NCR, CAR, FCR, DCR, VO, DRAWING']
+  name varchar(150) [not null]
+  dashboard_group document_group [not null]
+  review_flow review_flow [not null, default: 'none']
+  is_active boolean [not null, default: true]
+}
+
+Table source_files {
+  id bigint [pk, increment]
+  file_name varchar(260) [not null]
+  source_kind varchar(40) [not null, note: 'AUTOEMAIL, SharePoint, manual import, etc.']
+  schema_version varchar(30)
+  as_of_date date
+  imported_at timestamp [not null]
+  checksum varchar(128)
+}
+
+// One row per raw document-register row. A document/revision may appear more
+// than once when it is sent through multiple transmittals, so this table uses a
+// surrogate key instead of assuming DOCID + REVID is unique.
+Table document_records {
+  id bigint [pk, increment]
+  source_file_id bigint [not null]
+  source_row_no int [not null]
+  project_id bigint [not null]
+  doc_id varchar(150) [not null]
+  revision_id varchar(40)
+  discipline_id bigint
+  discipline_name_raw varchar(150)
+  title varchar(500)
+  doc_status varchar(30)
+  company varchar(80)
+  wbs_id varchar(80)
+  document_type_id bigint
+  revision_date date
+  plan_date date
+  transmittal_no varchar(150)
+  transmittal_date date
+  issue_for varchar(40)
+  due_date date
+  return_date date
+  return_code varchar(40)
+  response_date date
+  remark text
+  last_status varchar(80)
+  comment_list text
+  status_all_user text
+  loaded_at timestamp [not null]
+
+  Indexes {
+    (project_id, doc_id, revision_id)
+    (project_id, document_type_id, last_status)
+    (source_file_id, source_row_no) [unique]
+  }
+}
+
+// Parsed workflow comments/status transitions. This is optional but gives the
+// dashboard a reliable basis for ageing, overdue and reviewer-level details.
+Table document_workflow_events {
+  id bigint [pk, increment]
+  document_record_id bigint [not null]
+  sequence_no int [not null]
+  event_date date
+  status_code varchar(40)
+  actor_company varchar(80)
+  actor_name varchar(200)
+  remark text
+
+  Indexes {
+    (document_record_id, sequence_no) [unique]
+  }
+}
+
+// Dashboard's Drawing baseline. A row is either a discipline summary or a
+// drawing-type summary, identified by scope and the corresponding foreign key.
+Table drawing_metrics {
+  id bigint [pk, increment]
+  project_id bigint [not null]
+  as_of_date date [not null]
+  scope document_scope [not null, note: 'Use discipline for ME/CE/EE or document_type for FS/ML/PR/GA/LD/FD']
+  discipline_id bigint
+  document_type_id bigint
+  planned_count int [not null, default: 0]
+  actual_count int [not null, default: 0]
+  outstanding_count int [not null, default: 0]
+
+  Indexes {
+    (project_id, as_of_date, scope, discipline_id, document_type_id) [unique]
+  }
+}
+
+// ITP is a one-document submission per discipline in the current dashboard.
+Table itp_submissions {
+  id bigint [pk, increment]
+  project_id bigint [not null]
+  discipline_id bigint [not null]
+  as_of_date date [not null]
+  document_record_id bigint
+  is_submitted boolean [not null, default: false]
+  submitted_date date
+
+  Indexes {
+    (project_id, discipline_id, as_of_date) [unique]
+  }
+}
+
+// Normalized counts used by RFI, ITR, NCR, CAR, FCR, DCR and VO cards.
+// submitted_count = in_process_count + approved_count in the current logic.
+Table document_metrics {
+  id bigint [pk, increment]
+  project_id bigint [not null]
+  as_of_date date [not null]
+  document_type_id bigint [not null]
+  flow review_flow [not null, default: 'none']
+  registered_count int [not null, default: 0]
+  submitted_count int [not null, default: 0]
+  in_process_count int [not null, default: 0]
+  approved_count int [not null, default: 0]
+  overdue_count int [not null, default: 0]
+  average_open_age_days decimal(10,2)
+
+  Indexes {
+    (project_id, as_of_date, document_type_id, flow) [unique]
+  }
+}
+
+Table punchlist_metrics {
+  id bigint [pk, increment]
+  project_id bigint [not null]
+  as_of_date date [not null]
+  list_set punchlist_set [not null]
+  open_count int [not null, default: 0]
+  closed_count int [not null, default: 0]
+  overdue_count int [not null, default: 0]
+
+  Indexes {
+    (project_id, as_of_date, list_set) [unique]
+  }
+}
+
+// S-Curve progress shown in the right-hand panel. This is intentionally
+// separate from Drawing metrics because the prototype says it comes from
+// SharePoint/site progress, not from the document register.
+Table project_progress_snapshots {
+  id bigint [pk, increment]
+  project_id bigint [not null]
+  as_of_date date [not null]
+  plan_percent decimal(5,2) [not null]
+  actual_percent decimal(5,2) [not null]
+  source_name varchar(100)
+
+  Indexes {
+    (project_id, as_of_date) [unique]
+  }
+}
+
+// One row per project/week for the trend chart and backlog direction arrow.
+Table project_backlog_snapshots {
+  id bigint [pk, increment]
+  project_id bigint [not null]
+  snapshot_date date [not null]
+  total_documents int [not null, default: 0]
+  open_documents int [not null, default: 0]
+  closed_documents int [not null, default: 0]
+  new_documents int [not null, default: 0]
+  resolved_documents int [not null, default: 0]
+  net_change int [not null, note: 'new_documents - resolved_documents']
+
+  Indexes {
+    (project_id, snapshot_date) [unique]
+  }
+}
+
+Ref: source_files.id < document_records.source_file_id
+Ref: projects.id < document_records.project_id
+Ref: disciplines.id < document_records.discipline_id
+Ref: document_types.id < document_records.document_type_id
+Ref: document_records.id < document_workflow_events.document_record_id
+
+Ref: projects.id < drawing_metrics.project_id
+Ref: disciplines.id < drawing_metrics.discipline_id
+Ref: document_types.id < drawing_metrics.document_type_id
+
+Ref: projects.id < itp_submissions.project_id
+Ref: disciplines.id < itp_submissions.discipline_id
+Ref: document_records.id < itp_submissions.document_record_id
+
+Ref: projects.id < document_metrics.project_id
+Ref: document_types.id < document_metrics.document_type_id
+
+Ref: projects.id < punchlist_metrics.project_id
+Ref: projects.id < project_progress_snapshots.project_id
+Ref: projects.id < project_backlog_snapshots.project_id
