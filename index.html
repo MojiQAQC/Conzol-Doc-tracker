@@ -2329,7 +2329,7 @@
                   <th class="th-chg">DCR</th>
                   <th class="th-chg">VO</th>
                   <th class="th-comp">Punchlist</th>
-                  <th class="th-more">Total<br>Pending</th>
+                  <th class="th-more">Total<br>Overdue</th>
                 </tr>
                 <tr class="tot" id="totRow"></tr>
               </thead>
@@ -2337,23 +2337,19 @@
             </table>
           </div>
           <div class="foot-note">
-            ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น (รวม In
+            ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO/Punchlist = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น (รวม In
             Process + Approved ทั้งหมด ไม่จำกัดว่าส่งทาง Submittal หรือ Transmittal ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP =
             <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน)
-            กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span
+            กดขยายดูว่าสาขาไหนยังไม่ส่งได้ · กดปุ่ม <span
               class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8"
                 viewBox="0 0 10 10">
                 <path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"
                   stroke-linejoin="round" />
-              </svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Approved, Over
-            Due)<br>
+              </svg></span> ข้างตัวเลขเพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Approved, Over Due)<br>
             แถว <b>Overdue รวม</b> ใต้หัวคอลัมน์ และป้าย <b>Overdue N</b> ที่หัวกลุ่ม =
-            <b>ยอดเอกสารที่ยังค้าง/เกินกำหนดและยังไม่ approved</b> รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter)
-            คนละความหมายกับตัวเลขในแถวโครงการที่เป็นยอด Total — RFI/ITR/NCR/CAR/FCR/DCR/VO นับเฉพาะรายการที่ยังค้าง ·
-            ITP = สาขาที่ยังไม่ส่ง · Drawing = แผน − ที่มีแล้ว (ส่วนที่เกินแผนไม่หักลบ)<br>
-            สีของช่อง RFI/ITR/NCR/CAR/FCR/DCR/VO: <b>แดงกระพริบเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due) เกิน 3
-              ฉบับ</b> ส่วนรายการที่ค้างไม่เกิน 3 หรืออยู่ระหว่างดำเนินการตามปกติ (In Process) จะไม่ขึ้นสีแดงกระพริบ ·
-            ส่วน Punchlist/เกินกำหนด/Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
+            <b>ยอดเอกสารค้าง/เกินกำหนดและยังไม่ approved (In Process)</b> รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter)
+            บวกกันแนวนอนได้ตรงกับคอลัมน์ Total Overdue พอดี · ส่วนเอกสารในตารางแต่ละแถวเป็นยอด Total เอกสารทั้งหมด ·
+            สีของช่องเอกสาร: <b>แดงกระพริบเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due) เกิน 3 ฉบับ</b> · ส่วน Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม<br>
             Progress โครงการ (แผงขวา) เป็นข้อมูลหน้างานจริงจาก S-Curve/SharePoint คนละชุดกับ Drawing ที่มาจาก Conzol<br>
             ▲/▼ ข้างสถานะ = ค้างสุทธิเปลี่ยนไปเท่าไหร่เทียบสัปดาห์ก่อน (เอกสารเปิดใหม่ − ปิดไป) สีแดง=backlog กำลังโต
             ต้องรีบดู, สีเขียว=backlog กำลังลด · "ค้างเฉลี่ย" ในรายละเอียด NCR/CAR = อายุเฉลี่ยของรายการที่ยังค้างอยู่
@@ -2451,6 +2447,7 @@
           fcr: { registered: 10, submitted: 7, inProcess: 2, approved: 5, overdue: 0 },
           dcr: { registered: 4, submitted: 2, inProcess: 1, approved: 1, overdue: 0 },
           vo: { registered: 5, submitted: 3, inProcess: 1, approved: 2, overdue: 0 },
+          punch: { registered: 10, submitted: 8, inProcess: 6, approved: 2, overdue: 1 },
         }
       },
       {
@@ -2465,6 +2462,7 @@
           fcr: { registered: 12, submitted: 9, inProcess: 3, approved: 6, overdue: 1 },
           dcr: { registered: 7, submitted: 5, inProcess: 2, approved: 3, overdue: 0 },
           vo: { registered: 4, submitted: 2, inProcess: 1, approved: 1, overdue: 0 },
+          punch: { registered: 15, submitted: 12, inProcess: 8, approved: 4, overdue: 2 },
         }
       },
       {
@@ -2479,6 +2477,7 @@
           fcr: { registered: 14, submitted: 10, inProcess: 4, approved: 6, overdue: 1 },
           dcr: { registered: 6, submitted: 4, inProcess: 2, approved: 2, overdue: 1 },
           vo: { registered: 6, submitted: 4, inProcess: 2, approved: 2, overdue: 0 },
+          punch: { registered: 15, submitted: 12, inProcess: 9, approved: 3, overdue: 2 },
         }
       },
       {
@@ -2493,6 +2492,7 @@
           fcr: { registered: 18, submitted: 14, inProcess: 6, approved: 8, overdue: 2 },
           dcr: { registered: 10, submitted: 7, inProcess: 3, approved: 4, overdue: 1 },
           vo: { registered: 5, submitted: 2, inProcess: 2, approved: 0, overdue: 1 },
+          punch: { registered: 22, submitted: 18, inProcess: 14, approved: 4, overdue: 3 },
         }
       },
       {
@@ -2507,6 +2507,7 @@
           fcr: { registered: 7, submitted: 5, inProcess: 2, approved: 3, overdue: 0 },
           dcr: { registered: 3, submitted: 1, inProcess: 1, approved: 0, overdue: 0 },
           vo: { registered: 5, submitted: 3, inProcess: 1, approved: 2, overdue: 0 },
+          punch: { registered: 6, submitted: 4, inProcess: 2, approved: 2, overdue: 0 },
         }
       },
       {
@@ -2521,6 +2522,7 @@
           fcr: { registered: 11, submitted: 8, inProcess: 3, approved: 5, overdue: 1 },
           dcr: { registered: 5, submitted: 3, inProcess: 2, approved: 1, overdue: 0 },
           vo: { registered: 5, submitted: 3, inProcess: 1, approved: 2, overdue: 0 },
+          punch: { registered: 13, submitted: 10, inProcess: 7, approved: 3, overdue: 1 },
         }
       },
       {
@@ -2535,6 +2537,7 @@
           fcr: { registered: 22, submitted: 16, inProcess: 7, approved: 9, overdue: 3 },
           dcr: { registered: 13, submitted: 9, inProcess: 4, approved: 5, overdue: 2 },
           vo: { registered: 8, submitted: 5, inProcess: 3, approved: 2, overdue: 1 },
+          punch: { registered: 25, submitted: 20, inProcess: 15, approved: 5, overdue: 4 },
         }
       },
       {
@@ -2549,6 +2552,7 @@
           fcr: { registered: 26, submitted: 20, inProcess: 9, approved: 11, overdue: 4 },
           dcr: { registered: 15, submitted: 11, inProcess: 5, approved: 6, overdue: 2 },
           vo: { registered: 12, submitted: 8, inProcess: 3, approved: 5, overdue: 1 },
+          punch: { registered: 34, submitted: 27, inProcess: 20, approved: 7, overdue: 5 },
         }
       },
     ];
@@ -2598,6 +2602,7 @@
         fcr: { o: d.fcrOpen, c: d.fcrClosed, ov: 2 },
         dcr: { o: d.dcrOpen, c: d.dcrClosed, ov: 1 },
         vo: { o: d.voOpen, c: d.voClosed, ov: 1 },
+        punch: { o: Math.round(((d.a || 0) + (d.b || 0)) * 0.75), c: Math.round(((d.a || 0) + (d.b || 0)) * 0.25), ov: Math.min(2, (d.a || 0) + (d.b || 0)), tot: ((d.a || 0) + (d.b || 0)) },
       };
       const m = map[key] || { o: 0, c: 0, ov: 0 };
       const inProcess = m.o != null ? m.o : 0;
@@ -2611,22 +2616,26 @@
     function renderDocTrackerCards(d, key) {
       const cfg = colDefs[key];
       const { registered, submitted, inProcess, approved, overdue } = getDocStats(d, key);
+      const noteExtra = key === 'punch'
+        ? `Total = In Process (${inProcess}) + Approved (${approved}) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีรายการค้างเกินกำหนด (Due Date) เกิน 3 รายการ`
+        : `Total = In Process (${inProcess}) + Approved (${approved}) (รวมทั้ง Submittal และ Transmittal) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Due Date) เกิน 3 ฉบับ`;
       return `<span class="disc-wrap-lbl">${cfg.label} (${d.p}):</span>
     ${tile(submitted, 'Total', null)}
     ${tile(inProcess, 'In Process', inProcess > 0 ? 'proc' : 'none')}
     ${tile(approved, 'Approved', approved > 0 ? 'low' : null)}
     ${tile(overdue, 'Over Due', overdue > 0 ? 'high' : null)}
-    <span class="rate-note">Total = In Process (${inProcess}) + Approved (${approved}) (รวมทั้ง Submittal และ Transmittal) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Due Date) เกิน 3 ฉบับ</span>`;
+    <span class="rate-note">${noteExtra}</span>`;
     }
 
     // ITP: แต่ละสาขา (ME/CE/EE) ส่งได้ใบเดียว เลยนับได้สูงสุด 3 ใบต่อโครงการ — ใช้ดูว่าสาขาไหนยังไม่ส่ง
     function itpTotal(d) { return [d.itp.me, d.itp.ce, d.itp.ee].filter(Boolean).length; }
     function docTotal(d) {
       const itrSubmitted = d.docs && d.docs.itr ? d.docs.itr.submitted : d.itr;
+      const punchSubmitted = d.docs && d.docs.punch ? d.docs.punch.submitted : ((d.a || 0) + (d.b || 0));
       return d.draw.actual + (d.rfiOpen + d.rfiClosed) + itrSubmitted + itpTotal(d)
         + (d.ncrO + d.ncrOc) + (d.ncrE + d.ncrEc) + (d.carO + d.carOc) + (d.carE + d.carEc)
         + (d.fcrClosed + d.fcrOpen) + (d.dcrClosed + d.dcrOpen) + (d.voClosed + d.voOpen)
-        + (d.a + d.b);
+        + punchSubmitted;
     }
     function closureRate(closed, open) { return closed / (closed + open) * 100; }
 
@@ -2696,18 +2705,19 @@
       return `<button type="button" class="expand-btn" onclick="${onclickCall}" aria-label="ดูรายละเอียด">${expandChevronSvg()}</button>`;
     }
 
-    // รวมเอกสารที่ยังค้าง (open) ทุกประเภทของโครงการ — คำนวณจริงจากทุกกลุ่ม
-    function projectTotalPending(d) {
+    // รวมเอกสารที่ยังค้าง/Overdue ทุกประเภทของโครงการ — คำนวณจริงจากทุกกลุ่ม
+    function projectTotalOverdue(d) {
       const drawPending = Math.max(0, d.draw.plan - d.draw.actual);
       const itpPending = 3 - itpTotal(d);
+      const rfiInp = d.docs && d.docs.rfi ? d.docs.rfi.inProcess : (d.rfiOpen || 0);
       const itrInp = d.docs && d.docs.itr ? d.docs.itr.inProcess : Math.round((d.itr || 0) * 0.4);
       const corrPending = (d.ncrO || 0) + (d.ncrE || 0) + (d.carO || 0) + (d.carE || 0);
       const chgPending = (d.fcrOpen || 0) + (d.dcrOpen || 0) + (d.voOpen || 0);
-      const compPending = (d.a || 0) + (d.b || 0);
-      return drawPending + itpPending + (d.rfiOpen || 0) + itrInp + corrPending + chgPending + compPending;
+      const compPending = d.docs && d.docs.punch ? d.docs.punch.inProcess : ((d.a || 0) + (d.b || 0));
+      return drawPending + itpPending + rfiInp + itrInp + corrPending + chgPending + compPending;
     }
     function totalOpenDocs(d) {
-      return projectTotalPending(d);
+      return projectTotalOverdue(d);
     }
 
     // ===== ก้อนตัวเลขเดียว + กดขยายดูรายละเอียด — ใช้กับทุกคอลัมน์เอกสารในตาราง =====
@@ -2715,17 +2725,17 @@
     // mid/hi (คอลัมน์ที่ไม่มี closed) = threshold จำนวนดิบ; คอลัมน์ที่มี closed จะใช้ % ค้างแทน (ดู openRateLevel ด้านบน)
     const colDefs = {
       itp: { label: 'ITP', custom: 'itp' },
-      rfi: { label: 'RFI', isDoc: true, open: d => d.rfiOpen, closed: d => d.rfiClosed },
+      rfi: { label: 'RFI', isDoc: true, open: d => (d.docs && d.docs.rfi ? d.docs.rfi.inProcess : d.rfiOpen), closed: d => (d.docs && d.docs.rfi ? d.docs.rfi.approved : d.rfiClosed) },
       itr: { label: 'ITR', isDoc: true, open: d => (d.docs && d.docs.itr ? d.docs.itr.inProcess : Math.round(d.itr * 0.4)), closed: d => (d.docs && d.docs.itr ? d.docs.itr.approved : Math.round(d.itr * 0.6)) },
-      ncrO: { label: 'NCR Owner→EPS', isDoc: true, open: d => d.ncrO, closed: d => d.ncrOc },
-      ncrE: { label: 'NCR EPS→ผรม.', isDoc: true, open: d => d.ncrE, closed: d => d.ncrEc },
-      carO: { label: 'CAR Owner→EPS', isDoc: true, open: d => d.carO, closed: d => d.carOc },
-      carE: { label: 'CAR EPS→ผรม.', isDoc: true, open: d => d.carE, closed: d => d.carEc },
-      fcr: { label: 'FCR', isDoc: true, open: d => d.fcrOpen, closed: d => d.fcrClosed },
-      dcr: { label: 'DCR', isDoc: true, open: d => d.dcrOpen, closed: d => d.dcrClosed },
-      vo: { label: 'VO', isDoc: true, open: d => d.voOpen, closed: d => d.voClosed },
-      punch: { label: 'Punchlist', open: d => ((d.a || 0) + (d.b || 0)), mid: 10, hi: 20, noExpand: true },
-      overdue: { label: 'Total Pending', open: d => projectTotalPending(d), mid: 40, hi: 75, custom: 'overdue' },
+      ncrO: { label: 'NCR Owner→EPS', isDoc: true, open: d => (d.docs && d.docs.ncrO ? d.docs.ncrO.inProcess : d.ncrO), closed: d => (d.docs && d.docs.ncrO ? d.docs.ncrO.approved : d.ncrOc) },
+      ncrE: { label: 'NCR EPS→ผรม.', isDoc: true, open: d => (d.docs && d.docs.ncrE ? d.docs.ncrE.inProcess : d.ncrE), closed: d => (d.docs && d.docs.ncrE ? d.docs.ncrE.approved : d.ncrEc) },
+      carO: { label: 'CAR Owner→EPS', isDoc: true, open: d => (d.docs && d.docs.carO ? d.docs.carO.inProcess : d.carO), closed: d => (d.docs && d.docs.carO ? d.docs.carO.approved : d.carOc) },
+      carE: { label: 'CAR EPS→ผรม.', isDoc: true, open: d => (d.docs && d.docs.carE ? d.docs.carE.inProcess : d.carE), closed: d => (d.docs && d.docs.carE ? d.docs.carE.approved : d.carEc) },
+      fcr: { label: 'FCR', isDoc: true, open: d => (d.docs && d.docs.fcr ? d.docs.fcr.inProcess : d.fcrOpen), closed: d => (d.docs && d.docs.fcr ? d.docs.fcr.approved : d.fcrClosed) },
+      dcr: { label: 'DCR', isDoc: true, open: d => (d.docs && d.docs.dcr ? d.docs.dcr.inProcess : d.dcrOpen), closed: d => (d.docs && d.docs.dcr ? d.docs.dcr.approved : d.dcrClosed) },
+      vo: { label: 'VO', isDoc: true, open: d => (d.docs && d.docs.vo ? d.docs.vo.inProcess : d.voOpen), closed: d => (d.docs && d.docs.vo ? d.docs.vo.approved : d.voClosed) },
+      punch: { label: 'Punchlist', isDoc: true, open: d => (d.docs && d.docs.punch ? d.docs.punch.inProcess : ((d.a || 0) + (d.b || 0))), closed: d => (d.docs && d.docs.punch ? d.docs.punch.approved : 0) },
+      overdue: { label: 'Total Overdue', open: d => projectTotalOverdue(d), mid: 40, hi: 75, custom: 'overdue' },
       draw: { label: 'Drawing', custom: 'draw' },
     };
 
@@ -2794,18 +2804,19 @@
       if (key === 'overdue') {
         const drawP = Math.max(0, d.draw.plan - d.draw.actual);
         const itpP = 3 - itpTotal(d);
+        const rfiP = d.docs && d.docs.rfi ? d.docs.rfi.inProcess : (d.rfiOpen || 0);
         const itrP = (d.docs && d.docs.itr ? d.docs.itr.inProcess : Math.round((d.itr || 0) * 0.4));
         const corrP = (d.ncrO || 0) + (d.ncrE || 0) + (d.carO || 0) + (d.carE || 0);
         const chgP = (d.fcrOpen || 0) + (d.dcrOpen || 0) + (d.voOpen || 0);
-        const compP = (d.a || 0) + (d.b || 0);
-        const totalP = projectTotalPending(d);
-        return `<span class="disc-wrap-lbl">ค้างรวมทุกประเภท (${d.p}):</span>
+        const compP = d.docs && d.docs.punch ? d.docs.punch.inProcess : ((d.a || 0) + (d.b || 0));
+        const totalP = projectTotalOverdue(d);
+        return `<span class="disc-wrap-lbl">Overdue รวมทุกประเภท (${d.p}):</span>
       ${tile(drawP, 'Drawing', null)}
-      ${tile((d.rfiOpen || 0) + itrP + itpP, 'Control', null)}
+      ${tile(rfiP + itrP + itpP, 'Control', null)}
       ${tile(corrP, 'Corrective', null)}
       ${tile(chgP, 'Change', null)}
       ${tile(compP, 'Complete', null)}
-      ${tile(totalP, 'รวมทั้งหมด', 'high')}`;
+      ${tile(totalP, 'Total Overdue', 'high')}`;
       }
       if (cfg.isDoc) {
         return renderDocTrackerCards(d, key);
@@ -2906,7 +2917,7 @@
     function sortFn(key) {
       if (key === 'status') return (a, b) => readiness(a) - readiness(b); // CRITICAL (คะแนนต่ำสุด) ก่อน
       if (key === 'pending') return (a, b) => totalOpenDocs(b) - totalOpenDocs(a); // ค้างเยอะสุดก่อน
-      if (key === 'overdue') return (a, b) => b.overdue - a.overdue; // เกินกำหนดเยอะสุดก่อน
+      if (key === 'overdue') return (a, b) => projectTotalOverdue(b) - projectTotalOverdue(a); // Overdue รวมเยอะสุดก่อน
       if (key === 'drawing') return (a, b) => drawDiff(a.draw.plan, a.draw.actual) - drawDiff(b.draw.plan, b.draw.actual); // ตามแผนมากสุด (ลบมากสุด) ก่อน
       if (key === 'site') return (a, b) => (a.siteProgress.actual - a.siteProgress.plan) - (b.siteProgress.actual - b.siteProgress.plan); // ตามแผนมากสุดก่อน
       if (key === 'name') return (a, b) => a.p.localeCompare(b.p);
@@ -2953,9 +2964,9 @@
         + kpi('sum', 'k-sum', 'Σ');
     }
 
-    // ยอด "ค้าง" รวมทุกโครงการ ต่อประเภทเอกสาร + รวมต่อกลุ่ม (โชว์ในแถว tr.tot และป้ายหัวกลุ่ม)
-    // ค้าง: RFI/ITR/NCR/CAR/FCR/DCR/VO = colDefs[...].open (In Process) · Punchlist/เกินกำหนด = ยอดค้างอยู่แล้ว
-    //       ITP = สาขาที่ยังไม่ส่ง (3 − ส่งแล้ว) · Drawing = แผน − ที่มีแล้ว (ไม่นับส่วนที่เกินแผน)
+    // ยอด "Overdue รวม" รวมทุกโครงการ ต่อประเภทเอกสาร + รวมต่อกลุ่ม (โชว์ในแถว tr.tot และป้ายหัวกลุ่ม)
+    // Overdue: RFI/ITR/NCR/CAR/FCR/DCR/VO/Punchlist = colDefs[...].open (In Process) · Total Overdue = ยอดรวมทั้งโครงการ
+    //          ITP = สาขาที่ยังไม่ส่ง (3 − ส่งแล้ว) · Drawing = แผน − ที่มีแล้ว (ไม่นับส่วนที่เกินแผน)
     const pendFns = {
       draw: d => Math.max(0, d.draw.plan - d.draw.actual),
       itp: d => 3 - itpTotal(d),
