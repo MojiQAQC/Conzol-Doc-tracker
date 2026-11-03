@@ -1183,33 +1183,6 @@
       animation: pulseBad 1.3s ease-in-out infinite;
     }
 
-    /* ป้ายอันดับ #1-#3 ในคอลัมน์ Total Overdue เพื่อให้โปรเจกต์ที่มีงาน Overdue สูงสุดเด่นชัด */
-    .rank-tag {
-      display: inline-block;
-      font-size: 8.5px;
-      font-weight: 800;
-      line-height: 1;
-      padding: 1px 3.5px;
-      margin-right: 2.5px;
-      border-radius: 4px;
-      background: #b91c1c;
-      color: #fff;
-      vertical-align: 1px;
-      letter-spacing: -0.02em;
-    }
-
-    :root[data-theme="dark"] .rank-tag {
-      background: #ef4444;
-      color: #fff;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) .rank-tag {
-        background: #ef4444;
-        color: #fff;
-      }
-    }
-
     :root[data-theme="dark"] .chip-none,
     :root[data-theme="dark"] .chip-low,
     :root[data-theme="dark"] .chip-mid,
@@ -2377,7 +2350,7 @@
             แถว <b>Overdue รวม</b> ใต้หัวคอลัมน์ และป้าย <b>Overdue N</b> ที่หัวกลุ่ม =
             <b>ยอดเอกสารค้าง/เกินกำหนดและยังไม่ approved (In Process)</b> รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter)
             บวกกันแนวนอนได้ตรงกับคอลัมน์ Total Overdue พอดี · ส่วนเอกสารในตารางแต่ละแถวเป็นยอด Total เอกสารทั้งหมด ·
-            สีของช่องเอกสาร: <b>แดงกระพริบเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due) เกิน 3 ฉบับ</b> · คอลัมน์ Total Overdue <b>เน้นสีแดงกระพริบพร้อมป้ายอันดับ #1–#3 สำหรับโครงการที่มีงาน Overdue รวมสูงสุด 3 อันดับแรก</b> · ส่วน Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม<br>
+            สีของช่องเอกสาร: <b>แดงกระพริบเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Over Due) เกิน 3 ฉบับ</b> · คอลัมน์ Total Overdue <b>เน้นสีแดงกระพริบสำหรับโครงการที่มีงาน Overdue รวมสูงสุด 3 อันดับแรก</b> · ส่วน Drawing ใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม<br>
             Progress โครงการ (แผงขวา) เป็นข้อมูลหน้างานจริงจาก S-Curve/SharePoint คนละชุดกับ Drawing ที่มาจาก Conzol<br>
             ▲/▼ ข้างสถานะ = ค้างสุทธิเปลี่ยนไปเท่าไหร่เทียบสัปดาห์ก่อน (เอกสารเปิดใหม่ − ปิดไป) สีแดง=backlog กำลังโต
             ต้องรีบดู, สีเขียว=backlog กำลังลด · "ค้างเฉลี่ย" ในรายละเอียด NCR/CAR = อายุเฉลี่ยของรายการที่ยังค้างอยู่
@@ -2794,9 +2767,8 @@
         const rank = getOverdueRank(d);
         const isTop3 = rank <= 3;
         const blink = isTop3 ? ' chip-high chip-blink' : (val >= cfg.hi ? ' chip-high' : val >= cfg.mid ? ' chip-mid' : ' chip-low');
-        const rankBadge = isTop3 ? `<span class="rank-tag">#${rank}</span>` : '';
         const tooltip = `Total Overdue (${d.p}): ${val} รายการ${isTop3 ? ` (อันดับ ${rank} สูงสุด — ต้องเร่งติดตาม)` : ''}`;
-        return `<div class="mchip" title="${tooltip}"><span class="chip ${blink}">${rankBadge}${val}</span>${btn}</div>`;
+        return `<div class="mchip" title="${tooltip}"><span class="chip ${blink}">${val}</span>${btn}</div>`;
       }
       if (cfg.isDoc) {
         const s = getDocStats(d, key);
