@@ -144,6 +144,19 @@ thead tr.sub th.th-chg{background:var(--chg);}
 thead tr.sub th.th-comp{background:var(--comp);}
 thead tr.sub th.th-more{background:var(--ink-dim);}
 
+/* ป้าย "ค้าง N" ในแถบหัวกลุ่ม + แถวสรุป "ค้างรวมทุกโปรเจกต์" ใต้หัวคอลัมน์ — รวมทั้ง 8 โครงการ ไม่เปลี่ยนตาม search/filter */
+thead tr.grp th .grp-pend{display:inline-block; margin-left:6px; padding:1px 7px; border-radius:999px; background:rgba(255,255,255,.24); font-size:10px; font-weight:800; letter-spacing:0;}
+thead tr.tot td{ padding:9px 5px 8px; text-align:center; font-size:17px; font-weight:800; line-height:1; color:var(--ink); border-bottom:2px solid var(--line);}
+thead tr.tot td.tot-lbl{text-align:left; padding-left:16px; font-size:11.5px; font-weight:700; color:var(--ink-dim); line-height:1.25;}
+thead tr.tot td.tot-lbl span{display:block; font-size:9.5px; font-weight:500;}
+thead tr.tot td.tot-na{color:var(--ink-dim); font-weight:600; font-size:14px;}
+thead tr.tot td.tot-base{background:var(--base-soft);}
+thead tr.tot td.tot-ctrl{background:var(--ctrl-soft);}
+thead tr.tot td.tot-corr{background:var(--corr-soft);}
+thead tr.tot td.tot-chg{background:var(--chg-soft);}
+thead tr.tot td.tot-comp{background:var(--comp-soft);}
+thead tr.tot td.tot-more{background:var(--bg);}
+
 tbody td{padding:12px 6px; text-align:center; border-bottom:1px solid var(--line); font-size:14px; color:var(--ink);}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover td{background:var(--base-soft);}
@@ -306,6 +319,86 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
 .disc-row .dof{flex:none; font-size:9.5px; color:var(--ink-dim); font-weight:600;}
 .disc-row .bar-mini{width:100%; height:4px;}
 
+/* ===== ConZol Document Tracker Cards (Submitted / In Process / Approved / Over Due) ===== */
+.cz-tracker-wrap{display:flex; flex-direction:column; gap:10px; width:100%;}
+.cz-tracker-top{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+.cz-cards-row{display:flex; gap:12px; align-items:stretch; flex-wrap:wrap;}
+.cz-card{display:flex; flex-direction:column; width:135px; flex:none;}
+.cz-card.cz-c-inprocess, .cz-card.cz-c-approved{width:210px;}
+.cz-card-title{
+  font-size:12px; font-weight:600; color:var(--ink-dim); text-align:right;
+  margin-bottom:4px; padding-right:2px; letter-spacing:.01em; font-family:"Sarabun",sans-serif;
+}
+.cz-card-box{
+  background:var(--paper); border:1px solid var(--line); border-radius:6px;
+  overflow:hidden; box-shadow:0 1px 3px rgba(20,30,45,.06); display:flex; flex-direction:column; height:100%;
+}
+.cz-card-num-box{
+  height:46px; display:flex; align-items:center; justify-content:flex-end;
+  padding:0 12px; font-size:28px; font-weight:700; color:#fff; line-height:1;
+  font-family:"IBM Plex Sans",sans-serif;
+}
+/* Card 1: Submitted - Gray */
+.cz-c-submitted .cz-card-num-box{background:#9e9e9e;}
+.cz-c-submitted .cz-pbar{border:1px solid #d1d5db; background:#f3f4f6;}
+.cz-c-submitted .cz-pfill{background:#9e9e9e;}
+
+/* Card 2: In Process - Cyan / Sky Blue */
+.cz-c-inprocess .cz-card-num-box{background:#00a2e8;}
+.cz-c-inprocess .cz-pbar{border:1px solid #00a2e8; background:#e0f2fe;}
+.cz-c-inprocess .cz-pfill{background:#00a2e8;}
+
+/* Card 3: Approved - Green */
+.cz-c-approved .cz-card-num-box{background:#43a047;}
+.cz-c-approved .cz-pbar{border:1px solid #43a047; background:#dcfce7;}
+.cz-c-approved .cz-pfill{background:#43a047;}
+
+/* Card 4: Over Due - Red */
+.cz-c-overdue .cz-card-num-box{background:#e53935;}
+.cz-c-overdue .cz-pbar{border:1px solid #e53935; background:#fee2e2;}
+.cz-c-overdue .cz-pfill{background:#e53935;}
+
+.cz-card-body{
+  padding:8px 10px 9px; background:#f4f5f8; flex:1; display:flex; flex-direction:column; justify-content:space-between;
+}
+.cz-card-body.cz-2cols{
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+}
+.cz-card-body.cz-2cols > .cz-metric-col:first-child{
+  border-right:1px solid rgba(0,0,0,.08); padding-right:8px;
+}
+
+.cz-metric-col{display:flex; flex-direction:column; gap:2px;}
+.cz-m-lbl{font-size:9.5px; font-weight:500; color:var(--ink-dim); white-space:nowrap;}
+.cz-m-val{font-size:16px; font-weight:600; color:var(--ink); line-height:1.2; font-family:"IBM Plex Sans",sans-serif;}
+
+.cz-pbar{width:100%; height:7px; border-radius:3px; overflow:hidden; position:relative; margin-top:2px;}
+.cz-pfill{height:100%; border-radius:2px; transition:width .2s ease;}
+
+.cz-age-chip{
+  display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:7px;
+  background:var(--paper); border:1px solid var(--line); font-size:11.5px;
+}
+.cz-age-v{font-weight:700; color:var(--warn);}
+.cz-age-l{color:var(--ink-dim); font-size:10px; font-weight:600;}
+
+:root[data-theme="dark"] .cz-card-box{box-shadow:0 1px 3px rgba(0,0,0,.3);}
+:root[data-theme="dark"] .cz-card-body{background:#1a212b;}
+:root[data-theme="dark"] .cz-card-body.cz-2cols > .cz-metric-col:first-child{border-right-color:rgba(255,255,255,.08);}
+:root[data-theme="dark"] .cz-c-submitted .cz-pbar{background:#262d38; border-color:#525b6a;}
+:root[data-theme="dark"] .cz-c-inprocess .cz-pbar{background:#0e2838;}
+:root[data-theme="dark"] .cz-c-approved .cz-pbar{background:#112d1b;}
+:root[data-theme="dark"] .cz-c-overdue .cz-pbar{background:#381313;}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .cz-card-box{box-shadow:0 1px 3px rgba(0,0,0,.3);}
+  :root:not([data-theme="light"]) .cz-card-body{background:#1a212b;}
+  :root:not([data-theme="light"]) .cz-card-body.cz-2cols > .cz-metric-col:first-child{border-right-color:rgba(255,255,255,.08);}
+  :root:not([data-theme="light"]) .cz-c-submitted .cz-pbar{background:#262d38; border-color:#525b6a;}
+  :root:not([data-theme="light"]) .cz-c-inprocess .cz-pbar{background:#0e2838;}
+  :root:not([data-theme="light"]) .cz-c-approved .cz-pbar{background:#112d1b;}
+  :root:not([data-theme="light"]) .cz-c-overdue .cz-pbar{background:#381313;}
+}
+
 .legendbar{ background:var(--paper); border-radius:12px; border:1px solid var(--line); box-shadow:var(--shadow); padding:14px 18px;
   display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
 .legendbar .li{display:flex; gap:8px; align-items:flex-start;}
@@ -460,11 +553,11 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
           <thead>
             <tr class="grp">
               <th class="grp-proj"></th>
-              <th class="grp-base">① Baseline</th>
-              <th class="grp-ctrl" colspan="3">② Control</th>
-              <th class="grp-corr" colspan="4">③ Corrective</th>
-              <th class="grp-chg" colspan="3">④ Change</th>
-              <th class="grp-comp" colspan="2">⑤ Complete</th>
+              <th class="grp-base">① Baseline<span class="grp-pend" data-grp="base"></span></th>
+              <th class="grp-ctrl" colspan="3">② Control<span class="grp-pend" data-grp="ctrl"></span></th>
+              <th class="grp-corr" colspan="4">③ Corrective<span class="grp-pend" data-grp="corr"></span></th>
+              <th class="grp-chg" colspan="3">④ Change<span class="grp-pend" data-grp="chg"></span></th>
+              <th class="grp-comp" colspan="2">⑤ Complete<span class="grp-pend" data-grp="comp"></span></th>
               <th class="grp-more"></th>
             </tr>
             <tr class="sub">
@@ -484,13 +577,15 @@ tr.detail-row td{background:var(--base-soft); padding:10px 16px !important; text
               <th class="th-comp">Punchlist<br><span class="th-flow">ชุด B</span></th>
               <th class="th-more">เกินกำหนด</th>
             </tr>
+            <tr class="tot" id="totRow"></tr>
           </thead>
           <tbody id="tbody"></tbody>
         </table>
       </div>
       <div class="foot-note">
-ตัวเลขในกรอบคอลัมน์ RFI/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด</b>ของประเภทนั้น (เปิด+ปิด รวมที่เคยส่งมา ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist ชุด A/ชุด B และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดของคอลัมน์นั้น<br>
-สีของช่อง RFI/NCR/CAR/FCR/DCR/VO (เขียว/เหลือง/แดง) <b>ไม่ได้</b>ดูจากจำนวนดิบเทียบข้ามโปรเจกต์ตรงๆ แต่คำนวณจาก <b>% ค้าง = เปิดค้าง ÷ (เปิดค้าง+ปิดแล้ว) × 100</b> ของประเภทนั้นในโปรเจกต์นั้นเอง (เกณฑ์: &lt;25%=ปกติ, 25–44%=เฝ้าระวัง, ≥45%=ต้องรีบดู) เพื่อเทียบโปรเจกต์ขนาดต่างกันได้แฟร์ขึ้น — โปรเจกต์ใหญ่มีเอกสารเยอะกว่าโดยธรรมชาติ ไม่ได้แปลว่าคุณภาพแย่กว่า ดูสูตรเต็มได้เมื่อกดขยายแต่ละคอลัมน์ ส่วน Punchlist/เกินกำหนด/Drawing ยังใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
+ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO = <b>จำนวนเอกสารทั้งหมด (Submitted)</b> ของประเภทนั้น (รวม In Process + Approved ที่เคยส่งมา ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP = <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน) กดขยายดูว่าสาขาไหนยังไม่ส่งได้ ส่วน Punchlist ชุด A/ชุด B และเกินกำหนด = จำนวนที่ยังค้างอยู่ กดปุ่ม <span class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8" viewBox="0 0 10 10"><path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> ข้างตัวเลข (ถ้ามี) เพื่อดูรายละเอียดการติดตามเอกสารตามรูปแบบ ConZol (Submitted, In Process, Approved, Over Due)<br>
+แถว <b>ค้างรวม</b> ใต้หัวคอลัมน์ และป้าย <b>ค้าง N</b> ที่หัวกลุ่ม = <b>ยอดที่ยังค้าง</b>รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter) คนละความหมายกับตัวเลขในแถวโครงการที่เป็นยอดทั้งหมด — RFI/ITR/NCR/CAR/FCR/DCR/VO นับเฉพาะ In Process · ITP = สาขาที่ยังไม่ส่ง · Drawing = แผน − ที่มีแล้ว (ส่วนที่เกินแผนไม่หักลบ)<br>
+สีของช่อง RFI/ITR/NCR/CAR/FCR/DCR/VO (เขียว/เหลือง/แดง) คำนวณจาก <b>% In Process vs Submitted = In Process ÷ Submitted × 100</b> ของประเภทนั้นในโปรเจกต์นั้นเอง (เกณฑ์: &lt;25%=ปกติ, 25–44%=เฝ้าระวัง, ≥45%=ต้องรีบดู) เพื่อเทียบโปรเจกต์ขนาดต่างกันได้แฟร์ขึ้น ดูสูตรและ breakdown เต็มได้เมื่อกดขยายแต่ละคอลัมน์ ส่วน Punchlist/เกินกำหนด/Drawing ยังใช้จำนวนดิบเทียบเกณฑ์คงที่เหมือนเดิม (แดงกระพริบ=เกินกำหนดมาก)<br>
 Progress โครงการ (แผงขวา) เป็นข้อมูลหน้างานจริงจาก S-Curve/SharePoint คนละชุดกับ Drawing ที่มาจาก Conzol<br>
 ▲/▼ ข้างสถานะ = ค้างสุทธิเปลี่ยนไปเท่าไหร่เทียบสัปดาห์ก่อน (เอกสารเปิดใหม่ − ปิดไป) สีแดง=backlog กำลังโต ต้องรีบดู, สีเขียว=backlog กำลังลด · "ค้างเฉลี่ย" ในรายละเอียด NCR/CAR = อายุเฉลี่ยของรายการที่ยังค้างอยู่ ไม่ใช่แค่จำนวน<br>
 กดขยายคอลัมน์ Drawing จะเห็น 2 ชุด breakdown แยกกัน: แยกตามสาขา (ME/CE/EE เทียบแผน/จริง) และแยกตามประเภทเอกสาร (FS=Flowsheet, ML=Machine List, PR=Procurement List, GA=GA Drawing, LD=Load Data, FD=Fabrication Drawing — ไม่โชว์จำนวน: สีเขียว = มีเอกสารใน phase นั้นแล้ว, สีเทา = ยังไม่มี) · ตัวเลขในช่อง Drawing = มีแล้ว/แผนทั้งหมด<br>
@@ -511,8 +606,8 @@ Progress โครงการ (แผงขวา) เป็นข้อมู�
   <!-- ===== Bottom legend strip ===== -->
   <div class="legendbar">
     <div class="li li1"><span class="ico">①</span><div class="tx"><b>Drawing</b><span>เทียบแบบที่แพลนไว้ กับแบบที่มีใน Conzol</span></div></div>
-    <div class="li li2"><span class="ico">②</span><div class="tx"><b>Control</b><span>ITP=ส่งแล้วกี่สาขา (สูงสุด 3, ME/CE/EE ส่งได้สาขาละ 1 ใบ) · RFI เปิด=Revision ปิด=0</span></div></div>
-    <div class="li li3"><span class="ico">③</span><div class="tx"><b>Corrective</b><span>NCR=major · CAR=minor · แยก Owner→EPS→ผรม</span></div></div>
+    <div class="li li2"><span class="ico">②</span><div class="tx"><b>Control</b><span>ITP=ส่งแล้วกี่สาขา (สูงสุด 3) · RFI/ITR ติดตาม Submitted, In Process, Approved, Over Due</span></div></div>
+    <div class="li li3"><span class="ico">③</span><div class="tx"><b>Corrective</b><span>NCR=major · CAR=minor · ติดตาม In Process และค้างเฉลี่ย</span></div></div>
     <div class="li li4"><span class="ico">④</span><div class="tx"><b>Change</b><span>FCR=ผรม.ขอแก้ · DCR=EX คำนวณใหม่ · VO=เพิ่ม cost</span></div></div>
     <div class="li li5"><span class="ico">⑤</span><div class="tx"><b>Complete</b><span>Punchlist A/B ต้องปิดก่อน Commission</span></div></div>
   </div>
@@ -548,14 +643,110 @@ Progress โครงการ (แผงขวา) เป็นข้อมู�
 
 <script>
 const data = [
-  {p:"Project A", site:"SKK-01", siteProgress:{plan:85, actual:88}, draw:{plan:400,actual:412,off:33, me:{plan:160,actual:165}, ce:{plan:130,actual:135}, ee:{plan:110,actual:112}, types:{ml:42,pr:36,fs:5,ga:180,ld:150,fd:77}}, rfiOpen:6,  rfiClosed:12, itr:2,  itp:{me:true, ce:true, ee:true}, ncrO:2,  ncrOc:4,  ncrE:0,  ncrEc:2,  carO:4,  carOc:6,  carE:2,  carEc:4,  fcrClosed:5,  fcrOpen:2, dcrClosed:1,  dcrOpen:1, voClosed:2,  voOpen:1, a:2, b:6, overdue:3,  overdueTotal:50, ncrAvgAge:5,  carAvgAge:4,  netChange:-5},
-  {p:"Project B", site:"SKK-02", siteProgress:{plan:80, actual:76}, draw:{plan:380,actual:374,off:75, me:{plan:150,actual:155}, ce:{plan:125,actual:120}, ee:{plan:105,actual:99}, types:{ml:38,pr:31,fs:5,ga:165,ld:140,fd:64}}, rfiOpen:9,  rfiClosed:16, itr:3,  itp:{me:true, ce:true, ee:true}, ncrO:4,  ncrOc:7,  ncrE:2,  ncrEc:5,  carO:6,  carOc:9,  carE:2,  carEc:5,  fcrClosed:6,  fcrOpen:3, dcrClosed:3,  dcrOpen:2, voClosed:1,  voOpen:1, a:4, b:8, overdue:6,  overdueTotal:77, ncrAvgAge:9,  carAvgAge:7,  netChange:2},
-  {p:"Project C", site:"SKK-03", siteProgress:{plan:68, actual:60}, draw:{plan:320,actual:298,off:104,me:{plan:120,actual:118}, ce:{plan:100,actual:98},  ee:{plan:100,actual:82}, types:{ml:31,pr:24,fs:4,ga:130,ld:110,fd:54}}, rfiOpen:14, rfiClosed:14, itr:3,  itp:{me:true, ce:true, ee:false}, ncrO:5,  ncrOc:9,  ncrE:3,  ncrEc:7,  carO:5,  carOc:9,  carE:2,  carEc:6,  fcrClosed:6,  fcrOpen:4, dcrClosed:2,  dcrOpen:2, voClosed:2,  voOpen:2, a:3, b:9, overdue:9,  overdueTotal:86, ncrAvgAge:12, carAvgAge:10, netChange:4},
-  {p:"Project D", site:"SKK-04", siteProgress:{plan:58, actual:45}, draw:{plan:290,actual:256,off:115,me:{plan:110,actual:104}, ce:{plan:90, actual:88},  ee:{plan:90, actual:64}, types:{ml:27,pr:19,fs:4,ga:112,ld:95,fd:0}}, rfiOpen:19, rfiClosed:15, itr:3,  itp:{me:true, ce:false, ee:false}, ncrO:8,  ncrOc:14, ncrE:4,  ncrEc:10, carO:2,  carOc:8,  carE:3,  carEc:9,  fcrClosed:8,  fcrOpen:6, dcrClosed:4,  dcrOpen:3, voClosed:0,  voOpen:2, a:6, b:12, overdue:15, overdueTotal:110, ncrAvgAge:18, carAvgAge:15, netChange:7},
-  {p:"Project E", site:"SKK-05", siteProgress:{plan:82, actual:85}, draw:{plan:250,actual:256,off:31, me:{plan:100,actual:104}, ce:{plan:80, actual:82},  ee:{plan:70, actual:70}, types:{ml:24,pr:20,fs:3,ga:115,ld:92,fd:46}}, rfiOpen:4,  rfiClosed:10, itr:0,  itp:{me:true, ce:true, ee:true}, ncrO:1,  ncrOc:3,  ncrE:0,  ncrEc:2,  carO:2,  carOc:4,  carE:0,  carEc:2,  fcrClosed:3,  fcrOpen:2, dcrClosed:0,  dcrOpen:1, voClosed:2,  voOpen:1, a:1, b:3, overdue:2,  overdueTotal:32, ncrAvgAge:4,  carAvgAge:3,  netChange:-8},
-  {p:"Project F", site:"SKK-06", siteProgress:{plan:72, actual:70}, draw:{plan:325,actual:317,off:86, me:{plan:130,actual:128}, ce:{plan:105,actual:103}, ee:{plan:90, actual:86}, types:{ml:33,pr:26,fs:4,ga:140,ld:115,fd:58}}, rfiOpen:12, rfiClosed:16, itr:6,  itp:{me:true, ce:true, ee:false}, ncrO:3,  ncrOc:6,  ncrE:1,  ncrEc:4,  carO:2,  carOc:5,  carE:2,  carEc:5,  fcrClosed:5,  fcrOpen:3, dcrClosed:1,  dcrOpen:2, voClosed:2,  voOpen:1, a:3, b:7, overdue:5,  overdueTotal:66, ncrAvgAge:8,  carAvgAge:6,  netChange:0},
-  {p:"Project G", site:"SKK-07", siteProgress:{plan:42, actual:30}, draw:{plan:230,actual:198,off:119,me:{plan:90, actual:85},  ce:{plan:75, actual:70},  ee:{plan:65, actual:43}, types:{ml:21,pr:14,fs:3,ga:88,ld:70,fd:0}}, rfiOpen:21, rfiClosed:29, itr:6,  itp:{me:true, ce:false, ee:false}, ncrO:8,  ncrOc:15, ncrE:4,  ncrEc:11, carO:2,  carOc:9,  carE:2,  carEc:9,  fcrClosed:9,  fcrOpen:7, dcrClosed:5,  dcrOpen:4, voClosed:2,  voOpen:3, a:6, b:14, overdue:22, overdueTotal:130, ncrAvgAge:22, carAvgAge:17, netChange:10},
-  {p:"Project H", site:"SKK-08", siteProgress:{plan:33, actual:22}, draw:{plan:115,actual:105,off:73, me:{plan:45, actual:42},  ce:{plan:40, actual:38},  ee:{plan:30, actual:25}, types:{ml:12,pr:6,fs:2,ga:46,ld:0,fd:0}}, rfiOpen:31, rfiClosed:30, itr:7,  itp:{me:false, ce:false, ee:false}, ncrO:12, ncrOc:21, ncrE:6,  ncrEc:15, carO:3,  carOc:12, carE:4,  carEc:13, fcrClosed:11, fcrOpen:9, dcrClosed:6,  dcrOpen:5, voClosed:5,  voOpen:3, a:9, b:18, overdue:34, overdueTotal:174, ncrAvgAge:28, carAvgAge:21, netChange:13},
+  {p:"Project A", site:"SKK-01", siteProgress:{plan:85, actual:88}, draw:{plan:400,actual:412,off:33, me:{plan:160,actual:165}, ce:{plan:130,actual:135}, ee:{plan:110,actual:112}, types:{ml:42,pr:36,fs:5,ga:180,ld:150,fd:77}}, rfiOpen:6,  rfiClosed:12, itr:2,  itp:{me:true, ce:true, ee:true}, ncrO:2,  ncrOc:4,  ncrE:0,  ncrEc:2,  carO:4,  carOc:6,  carE:2,  carEc:4,  fcrClosed:5,  fcrOpen:2, dcrClosed:1,  dcrOpen:1, voClosed:2,  voOpen:1, a:2, b:6, overdue:3,  overdueTotal:50, ncrAvgAge:5,  carAvgAge:4,  netChange:-5,
+    docs:{
+      rfi:  {registered:22, submitted:18, inProcess:6,  approved:12, overdue:1},
+      itr:  {registered:4,  submitted:2,  inProcess:1,  approved:1,  overdue:0},
+      ncrO: {registered:8,  submitted:6,  inProcess:2,  approved:4,  overdue:0},
+      ncrE: {registered:4,  submitted:2,  inProcess:0,  approved:2,  overdue:0},
+      carO: {registered:12, submitted:10, inProcess:4,  approved:6,  overdue:1},
+      carE: {registered:8,  submitted:6,  inProcess:2,  approved:4,  overdue:0},
+      fcr:  {registered:10, submitted:7,  inProcess:2,  approved:5,  overdue:0},
+      dcr:  {registered:4,  submitted:2,  inProcess:1,  approved:1,  overdue:0},
+      vo:   {registered:5,  submitted:3,  inProcess:1,  approved:2,  overdue:0},
+    }
+  },
+  {p:"Project B", site:"SKK-02", siteProgress:{plan:80, actual:76}, draw:{plan:380,actual:374,off:75, me:{plan:150,actual:155}, ce:{plan:125,actual:120}, ee:{plan:105,actual:99}, types:{ml:38,pr:31,fs:5,ga:165,ld:140,fd:64}}, rfiOpen:9,  rfiClosed:16, itr:3,  itp:{me:true, ce:true, ee:true}, ncrO:4,  ncrOc:7,  ncrE:2,  ncrEc:5,  carO:6,  carOc:9,  carE:2,  carEc:5,  fcrClosed:6,  fcrOpen:3, dcrClosed:3,  dcrOpen:2, voClosed:1,  voOpen:1, a:4, b:8, overdue:6,  overdueTotal:77, ncrAvgAge:9,  carAvgAge:7,  netChange:2,
+    docs:{
+      rfi:  {registered:30, submitted:25, inProcess:9,  approved:16, overdue:2},
+      itr:  {registered:5,  submitted:3,  inProcess:1,  approved:2,  overdue:0},
+      ncrO: {registered:14, submitted:11, inProcess:4,  approved:7,  overdue:1},
+      ncrE: {registered:9,  submitted:7,  inProcess:2,  approved:5,  overdue:0},
+      carO: {registered:18, submitted:15, inProcess:6,  approved:9,  overdue:2},
+      carE: {registered:9,  submitted:7,  inProcess:2,  approved:5,  overdue:0},
+      fcr:  {registered:12, submitted:9,  inProcess:3,  approved:6,  overdue:1},
+      dcr:  {registered:7,  submitted:5,  inProcess:2,  approved:3,  overdue:0},
+      vo:   {registered:4,  submitted:2,  inProcess:1,  approved:1,  overdue:0},
+    }
+  },
+  {p:"Project C", site:"SKK-03", siteProgress:{plan:68, actual:60}, draw:{plan:320,actual:298,off:104,me:{plan:120,actual:118}, ce:{plan:100,actual:98},  ee:{plan:100,actual:82}, types:{ml:31,pr:24,fs:4,ga:130,ld:110,fd:54}}, rfiOpen:14, rfiClosed:14, itr:3,  itp:{me:true, ce:true, ee:false}, ncrO:5,  ncrOc:9,  ncrE:3,  ncrEc:7,  carO:5,  carOc:9,  carE:2,  carEc:6,  fcrClosed:6,  fcrOpen:4, dcrClosed:2,  dcrOpen:2, voClosed:2,  voOpen:2, a:3, b:9, overdue:9,  overdueTotal:86, ncrAvgAge:12, carAvgAge:10, netChange:4,
+    docs:{
+      rfi:  {registered:34, submitted:28, inProcess:14, approved:14, overdue:3},
+      itr:  {registered:6,  submitted:3,  inProcess:1,  approved:2,  overdue:0},
+      ncrO: {registered:18, submitted:14, inProcess:5,  approved:9,  overdue:2},
+      ncrE: {registered:13, submitted:10, inProcess:3,  approved:7,  overdue:1},
+      carO: {registered:16, submitted:14, inProcess:5,  approved:9,  overdue:1},
+      carE: {registered:10, submitted:8,  inProcess:2,  approved:6,  overdue:0},
+      fcr:  {registered:14, submitted:10, inProcess:4,  approved:6,  overdue:1},
+      dcr:  {registered:6,  submitted:4,  inProcess:2,  approved:2,  overdue:1},
+      vo:   {registered:6,  submitted:4,  inProcess:2,  approved:2,  overdue:0},
+    }
+  },
+  {p:"Project D", site:"SKK-04", siteProgress:{plan:58, actual:45}, draw:{plan:290,actual:256,off:115,me:{plan:110,actual:104}, ce:{plan:90, actual:88},  ee:{plan:90, actual:64}, types:{ml:27,pr:19,fs:4,ga:112,ld:95,fd:0}}, rfiOpen:19, rfiClosed:15, itr:3,  itp:{me:true, ce:false, ee:false}, ncrO:8,  ncrOc:14, ncrE:4,  ncrEc:10, carO:2,  carOc:8,  carE:3,  carEc:9,  fcrClosed:8,  fcrOpen:6, dcrClosed:4,  dcrOpen:3, voClosed:0,  voOpen:2, a:6, b:12, overdue:15, overdueTotal:110, ncrAvgAge:18, carAvgAge:15, netChange:7,
+    docs:{
+      rfi:  {registered:40, submitted:34, inProcess:19, approved:15, overdue:5},
+      itr:  {registered:5,  submitted:3,  inProcess:1,  approved:2,  overdue:0},
+      ncrO: {registered:26, submitted:22, inProcess:8,  approved:14, overdue:2},
+      ncrE: {registered:18, submitted:14, inProcess:4,  approved:10, overdue:1},
+      carO: {registered:12, submitted:10, inProcess:2,  approved:8,  overdue:0},
+      carE: {registered:15, submitted:12, inProcess:3,  approved:9,  overdue:1},
+      fcr:  {registered:18, submitted:14, inProcess:6,  approved:8,  overdue:2},
+      dcr:  {registered:10, submitted:7,  inProcess:3,  approved:4,  overdue:1},
+      vo:   {registered:5,  submitted:2,  inProcess:2,  approved:0,  overdue:1},
+    }
+  },
+  {p:"Project E", site:"SKK-05", siteProgress:{plan:82, actual:85}, draw:{plan:250,actual:256,off:31, me:{plan:100,actual:104}, ce:{plan:80, actual:82},  ee:{plan:70, actual:70}, types:{ml:24,pr:20,fs:3,ga:115,ld:92,fd:46}}, rfiOpen:4,  rfiClosed:10, itr:0,  itp:{me:true, ce:true, ee:true}, ncrO:1,  ncrOc:3,  ncrE:0,  ncrEc:2,  carO:2,  carOc:4,  carE:0,  carEc:2,  fcrClosed:3,  fcrOpen:2, dcrClosed:0,  dcrOpen:1, voClosed:2,  voOpen:1, a:1, b:3, overdue:2,  overdueTotal:32, ncrAvgAge:4,  carAvgAge:3,  netChange:-8,
+    docs:{
+      rfi:  {registered:16, submitted:14, inProcess:4,  approved:10, overdue:1},
+      itr:  {registered:3,  submitted:0,  inProcess:0,  approved:0,  overdue:0},
+      ncrO: {registered:6,  submitted:4,  inProcess:1,  approved:3,  overdue:0},
+      ncrE: {registered:4,  submitted:2,  inProcess:0,  approved:2,  overdue:0},
+      carO: {registered:8,  submitted:6,  inProcess:2,  approved:4,  overdue:1},
+      carE: {registered:3,  submitted:2,  inProcess:0,  approved:2,  overdue:0},
+      fcr:  {registered:7,  submitted:5,  inProcess:2,  approved:3,  overdue:0},
+      dcr:  {registered:3,  submitted:1,  inProcess:1,  approved:0,  overdue:0},
+      vo:   {registered:5,  submitted:3,  inProcess:1,  approved:2,  overdue:0},
+    }
+  },
+  {p:"Project F", site:"SKK-06", siteProgress:{plan:72, actual:70}, draw:{plan:325,actual:317,off:86, me:{plan:130,actual:128}, ce:{plan:105,actual:103}, ee:{plan:90, actual:86}, types:{ml:33,pr:26,fs:4,ga:140,ld:115,fd:58}}, rfiOpen:12, rfiClosed:16, itr:6,  itp:{me:true, ce:true, ee:false}, ncrO:3,  ncrOc:6,  ncrE:1,  ncrEc:4,  carO:2,  carOc:5,  carE:2,  carEc:5,  fcrClosed:5,  fcrOpen:3, dcrClosed:1,  dcrOpen:2, voClosed:2,  voOpen:1, a:3, b:7, overdue:5,  overdueTotal:66, ncrAvgAge:8,  carAvgAge:6,  netChange:0,
+    docs:{
+      rfi:  {registered:32, submitted:28, inProcess:12, approved:16, overdue:2},
+      itr:  {registered:8,  submitted:6,  inProcess:2,  approved:4,  overdue:0},
+      ncrO: {registered:12, submitted:9,  inProcess:3,  approved:6,  overdue:1},
+      ncrE: {registered:7,  submitted:5,  inProcess:1,  approved:4,  overdue:0},
+      carO: {registered:9,  submitted:7,  inProcess:2,  approved:5,  overdue:0},
+      carE: {registered:10, submitted:7,  inProcess:2,  approved:5,  overdue:0},
+      fcr:  {registered:11, submitted:8,  inProcess:3,  approved:5,  overdue:1},
+      dcr:  {registered:5,  submitted:3,  inProcess:2,  approved:1,  overdue:0},
+      vo:   {registered:5,  submitted:3,  inProcess:1,  approved:2,  overdue:0},
+    }
+  },
+  {p:"Project G", site:"SKK-07", siteProgress:{plan:42, actual:30}, draw:{plan:230,actual:198,off:119,me:{plan:90, actual:85},  ce:{plan:75, actual:70},  ee:{plan:65, actual:43}, types:{ml:21,pr:14,fs:3,ga:88,ld:70,fd:0}}, rfiOpen:21, rfiClosed:29, itr:6,  itp:{me:true, ce:false, ee:false}, ncrO:8,  ncrOc:15, ncrE:4,  ncrEc:11, carO:2,  carOc:9,  carE:2,  carEc:9,  fcrClosed:9,  fcrOpen:7, dcrClosed:5,  dcrOpen:4, voClosed:2,  voOpen:3, a:6, b:14, overdue:22, overdueTotal:130, ncrAvgAge:22, carAvgAge:17, netChange:10,
+    docs:{
+      rfi:  {registered:58, submitted:50, inProcess:21, approved:29, overdue:7},
+      itr:  {registered:10, submitted:6,  inProcess:2,  approved:4,  overdue:1},
+      ncrO: {registered:28, submitted:23, inProcess:8,  approved:15, overdue:3},
+      ncrE: {registered:20, submitted:15, inProcess:4,  approved:11, overdue:1},
+      carO: {registered:14, submitted:11, inProcess:2,  approved:9,  overdue:0},
+      carE: {registered:14, submitted:11, inProcess:2,  approved:9,  overdue:1},
+      fcr:  {registered:22, submitted:16, inProcess:7,  approved:9,  overdue:3},
+      dcr:  {registered:13, submitted:9,  inProcess:4,  approved:5,  overdue:2},
+      vo:   {registered:8,  submitted:5,  inProcess:3,  approved:2,  overdue:1},
+    }
+  },
+  {p:"Project H", site:"SKK-08", siteProgress:{plan:33, actual:22}, draw:{plan:115,actual:105,off:73, me:{plan:45, actual:42},  ce:{plan:40, actual:38},  ee:{plan:30, actual:25}, types:{ml:12,pr:6,fs:2,ga:46,ld:0,fd:0}}, rfiOpen:31, rfiClosed:30, itr:7,  itp:{me:false, ce:false, ee:false}, ncrO:12, ncrOc:21, ncrE:6,  ncrEc:15, carO:3,  carOc:12, carE:4,  carEc:13, fcrClosed:11, fcrOpen:9, dcrClosed:6,  dcrOpen:5, voClosed:5,  voOpen:3, a:9, b:18, overdue:34, overdueTotal:174, ncrAvgAge:28, carAvgAge:21, netChange:13,
+    docs:{
+      rfi:  {registered:72, submitted:61, inProcess:31, approved:30, overdue:11},
+      itr:  {registered:12, submitted:7,  inProcess:3,  approved:4,  overdue:1},
+      ncrO: {registered:40, submitted:33, inProcess:12, approved:21, overdue:5},
+      ncrE: {registered:26, submitted:21, inProcess:6,  approved:15, overdue:3},
+      carO: {registered:18, submitted:15, inProcess:3,  approved:12, overdue:1},
+      carE: {registered:22, submitted:17, inProcess:4,  approved:13, overdue:2},
+      fcr:  {registered:26, submitted:20, inProcess:9,  approved:11, overdue:4},
+      dcr:  {registered:15, submitted:11, inProcess:5,  approved:6,  overdue:2},
+      vo:   {registered:12, submitted:8,  inProcess:3,  approved:5,  overdue:1},
+    }
+  },
 ];
 
 function sev(v, mid, hi){ return v>=hi?'st-bad':v>=mid?'st-warn':'st-good'; }
@@ -567,15 +758,68 @@ function heatLevel(open, mid, hi){ return open===0 ? 'none' : open>=hi ? 'high' 
 // เกณฑ์: 0% = none (ไม่มีค้าง) · <25% = low (ปกติ) · 25–44% = mid (เฝ้าระวัง) · ≥45% = high (ต้องรีบดู)
 const RATE_MID = 25, RATE_HI = 45;
 function openRatePct(open, closed){ return (open+closed) > 0 ? Math.round(open/(open+closed)*100) : 0; }
+function inProcessRatePct(inProcess, submitted){ return submitted > 0 ? Math.round(inProcess / submitted * 100) : 0; }
+function inProcessRateLevel(inProcess, submitted){
+  if(inProcess === 0) return 'none';
+  const pct = inProcessRatePct(inProcess, submitted);
+  return pct >= RATE_HI ? 'high' : pct >= RATE_MID ? 'mid' : 'low';
+}
+function openRatePct(open, closed){ return (open+closed) > 0 ? Math.round(open/(open+closed)*100) : 0; }
 function openRateLevel(open, closed){
   if(open === 0) return 'none';
   const pct = openRatePct(open, closed);
   return pct >= RATE_HI ? 'high' : pct >= RATE_MID ? 'mid' : 'low';
 }
+
+// ดึงข้อมูลสถานะติดตามเอกสารตามรูปแบบ ConZol (Submitted, In Process, Approved, Over Due, Registered)
+function getDocStats(d, key){
+  if(d.docs && d.docs[key]){
+    const s = d.docs[key];
+    const submitted = s.submitted != null ? s.submitted : (s.inProcess + s.approved);
+    const registered = s.registered != null ? s.registered : Math.max(submitted, Math.round(submitted * 1.15) || 1);
+    const inProcess = s.inProcess != null ? s.inProcess : 0;
+    const approved = s.approved != null ? s.approved : 0;
+    const overdue = s.overdue != null ? s.overdue : 0;
+    return { registered, submitted, inProcess, approved, overdue };
+  }
+  const map = {
+    rfi:  { o: d.rfiOpen,   c: d.rfiClosed,  ov: 4 },
+    itr:  { o: Math.round(d.itr*0.4), c: Math.round(d.itr*0.6), ov: 0, tot: d.itr },
+    ncrO: { o: d.ncrO,      c: d.ncrOc,      ov: 2 },
+    ncrE: { o: d.ncrE,      c: d.ncrEc,      ov: 1 },
+    carO: { o: d.carO,      c: d.carOc,      ov: 1 },
+    carE: { o: d.carE,      c: d.carEc,      ov: 1 },
+    fcr:  { o: d.fcrOpen,   c: d.fcrClosed,  ov: 2 },
+    dcr:  { o: d.dcrOpen,   c: d.dcrClosed,  ov: 1 },
+    vo:   { o: d.voOpen,    c: d.voClosed,   ov: 1 },
+  };
+  const m = map[key] || { o: 0, c: 0, ov: 0 };
+  const inProcess = m.o != null ? m.o : 0;
+  const approved = m.c != null ? m.c : 0;
+  const submitted = m.tot != null ? m.tot : (inProcess + approved);
+  const registered = Math.max(submitted, Math.round(submitted * 1.18) || 1);
+  const overdue = Math.min(inProcess, m.ov);
+  return { registered, submitted, inProcess, approved, overdue };
+}
+
+function renderDocTrackerCards(d, key){
+  const cfg = colDefs[key];
+  const { registered, submitted, inProcess, approved, overdue } = getDocStats(d, key);
+  const pct = submitted > 0 ? Math.round(inProcess / submitted * 100) : 0;
+  const lvl = inProcess === 0 ? 'none' : pct >= RATE_HI ? 'high' : pct >= RATE_MID ? 'mid' : 'low';
+  return `<span class="disc-wrap-lbl">${cfg.label} (${d.p}):</span>
+    ${tile(submitted, 'Submitted', null)}
+    ${tile(inProcess, 'In Process', lvl)}
+    ${tile(approved, 'Approved', null)}
+    ${tile(overdue, 'Over Due', overdue > 0 ? 'high' : null)}
+    <span class="rate-note">Registered (ลงทะเบียน) = ${registered} · Submitted = In Process + Approved · สีของ "In Process" คำนวณจาก % In Process vs Submitted = ${inProcess} ÷ ${submitted} × 100 = ${pct}% (ไม่ใช่จำนวนดิบ) · เกณฑ์: &lt;${RATE_MID}%=ปกติ, ${RATE_MID}–${RATE_HI-1}%=เฝ้าระวัง, ≥${RATE_HI}%=ต้องรีบดู</span>`;
+}
+
 // ITP: แต่ละสาขา (ME/CE/EE) ส่งได้ใบเดียว เลยนับได้สูงสุด 3 ใบต่อโครงการ — ใช้ดูว่าสาขาไหนยังไม่ส่ง
 function itpTotal(d){ return [d.itp.me, d.itp.ce, d.itp.ee].filter(Boolean).length; }
 function docTotal(d){
-  return d.draw.actual + (d.rfiOpen+d.rfiClosed) + d.itr + itpTotal(d)
+  const itrSubmitted = d.docs && d.docs.itr ? d.docs.itr.submitted : d.itr;
+  return d.draw.actual + (d.rfiOpen+d.rfiClosed) + itrSubmitted + itpTotal(d)
     + (d.ncrO+d.ncrOc) + (d.ncrE+d.ncrEc) + (d.carO+d.carOc) + (d.carE+d.carEc)
     + (d.fcrClosed+d.fcrOpen) + (d.dcrClosed+d.dcrOpen) + (d.voClosed+d.voOpen)
     + (d.a+d.b);
@@ -650,7 +894,8 @@ function expandBtn(onclickCall){
 
 // รวมเอกสารที่ยังค้าง (open) ทุกประเภทของโครงการ — ใช้ทั้งแสดงในคอลัมน์ คงค้าง และ sort
 function totalOpenDocs(d){
-  return d.rfiOpen + d.ncrO+d.ncrE + d.carO+d.carE + d.fcrOpen + d.dcrOpen + d.voOpen + (d.a+d.b);
+  const itrInp = d.docs && d.docs.itr ? d.docs.itr.inProcess : 0;
+  return d.rfiOpen + itrInp + d.ncrO+d.ncrE + d.carO+d.carE + d.fcrOpen + d.dcrOpen + d.voOpen + (d.a+d.b);
 }
 
 // ===== ก้อนตัวเลขเดียว + กดขยายดูรายละเอียด — ใช้กับทุกคอลัมน์เอกสารในตาราง =====
@@ -658,14 +903,15 @@ function totalOpenDocs(d){
 // mid/hi (คอลัมน์ที่ไม่มี closed) = threshold จำนวนดิบ; คอลัมน์ที่มี closed จะใช้ % ค้างแทน (ดู openRateLevel ด้านบน)
 const colDefs = {
   itp:     {label:'ITP',            custom:'itp'},
-  rfi:     {label:'RFI',            open:d=>d.rfiOpen, closed:d=>d.rfiClosed},
-  ncrO:    {label:'NCR Owner→EPS',  open:d=>d.ncrO,    closed:d=>d.ncrOc},
-  ncrE:    {label:'NCR EPS→ผรม.',   open:d=>d.ncrE,    closed:d=>d.ncrEc},
-  carO:    {label:'CAR Owner→EPS',  open:d=>d.carO,    closed:d=>d.carOc},
-  carE:    {label:'CAR EPS→ผรม.',   open:d=>d.carE,    closed:d=>d.carEc},
-  fcr:     {label:'FCR',            open:d=>d.fcrOpen, closed:d=>d.fcrClosed},
-  dcr:     {label:'DCR',            open:d=>d.dcrOpen, closed:d=>d.dcrClosed},
-  vo:      {label:'VO',             open:d=>d.voOpen,  closed:d=>d.voClosed},
+  rfi:     {label:'RFI',            isDoc:true, open:d=>d.rfiOpen, closed:d=>d.rfiClosed},
+  itr:     {label:'ITR',            isDoc:true, open:d=>(d.docs&&d.docs.itr?d.docs.itr.inProcess:Math.round(d.itr*0.4)), closed:d=>(d.docs&&d.docs.itr?d.docs.itr.approved:Math.round(d.itr*0.6))},
+  ncrO:    {label:'NCR Owner→EPS',  isDoc:true, open:d=>d.ncrO,    closed:d=>d.ncrOc},
+  ncrE:    {label:'NCR EPS→ผรม.',   isDoc:true, open:d=>d.ncrE,    closed:d=>d.ncrEc},
+  carO:    {label:'CAR Owner→EPS',  isDoc:true, open:d=>d.carO,    closed:d=>d.carOc},
+  carE:    {label:'CAR EPS→ผรม.',   isDoc:true, open:d=>d.carE,    closed:d=>d.carEc},
+  fcr:     {label:'FCR',            isDoc:true, open:d=>d.fcrOpen, closed:d=>d.fcrClosed},
+  dcr:     {label:'DCR',            isDoc:true, open:d=>d.dcrOpen, closed:d=>d.dcrClosed},
+  vo:      {label:'VO',             isDoc:true, open:d=>d.voOpen,  closed:d=>d.voClosed},
   puncha:  {label:'Punchlist ชุด A', open:d=>d.a,       mid:4,  hi:7,  noExpand:true},
   punchb:  {label:'Punchlist ชุด B', open:d=>d.b,       mid:8,  hi:14, noExpand:true},
   overdue: {label:'เกินกำหนด',       open:d=>d.overdue, mid:8,  hi:18, custom:'overdue', blink:true},
@@ -688,14 +934,18 @@ function mchip(d, key){
     // ITP = แต่ละสาขาส่งได้ใบเดียว โชว์ "ส่งแล้ว/ทั้งหมด" เฉยๆ ไม่มีสีเตือน กดขยายดูว่าสาขาไหนยังไม่ส่ง
     return `<div class="mchip"><span class="chip chip-none">${itpTotal(d)}</span>${btn}</div>`;
   }
+  if(cfg.isDoc){
+    const s = getDocStats(d, key);
+    const val = s.submitted;
+    const lvl = inProcessRateLevel(s.inProcess, s.submitted);
+    const blink = lvl === 'high' ? ' chip-blink' : '';
+    const tooltip = `${cfg.label} (${d.p}): Submitted ${s.submitted} | In Process ${s.inProcess} | Approved ${s.approved} | Over Due ${s.overdue}`;
+    return `<div class="mchip" title="${tooltip}"><span class="chip chip-${lvl}${blink}">${val}</span>${btn}</div>`;
+  }
   const open = cfg.open(d);
-  // คอลัมน์ที่มีเปิด/ปิด (RFI/NCR/CAR/FCR/DCR/VO) โชว์ "จำนวนเอกสารทั้งหมด" (เปิด+ปิด รวมที่เคยส่งมา) ไม่ใช่แค่ที่ยังค้าง
-  // ส่วนสีเตือน/กระพริบยังคำนวณจาก % ค้าง (open ÷ total) เหมือนเดิม ไม่เกี่ยวกับตัวเลขที่โชว์
   const val = cfg.closed ? open + cfg.closed(d) : open;
-  const lvl = cfg.closed ? openRateLevel(open, cfg.closed(d)) : heatLevel(open, cfg.mid, cfg.hi);
-  // กระพริบเมื่อ "ต้องรีบดู" (high) — ทั้งคอลัมน์ที่คำนวณจาก % ค้าง (RFI/NCR/CAR/FCR/DCR/VO) และคอลัมน์ที่ตั้ง blink ไว้เอง (เกินกำหนด)
-  const blink = lvl === 'high' && (cfg.blink || cfg.closed) ? ' chip-blink' : '';
-  // Punchlist ชุด A/B ไม่มีรายละเอียดย่อยเพิ่มเติม (แยกเป็นคอลัมน์ของตัวเองแล้ว) เลยไม่ต้องมีปุ่มขยาย
+  const lvl = heatLevel(open, cfg.mid, cfg.hi);
+  const blink = lvl === 'high' && cfg.blink ? ' chip-blink' : '';
   if(cfg.noExpand){
     return `<span class="chip chip-${lvl}${blink}">${val}</span>`;
   }
@@ -735,16 +985,14 @@ function colDetailHtml(d, key){
       ${tile(d.overdue, 'ค้างเกินกำหนด', heatLevel(d.overdue, cfg.mid, cfg.hi))}
       ${tile(d.overdueTotal, 'ทั้งหมดที่ติดตาม', null)}`;
   }
-  const open = cfg.open(d), closed = cfg.closed(d);
-  const pct = openRatePct(open, closed);
-  const ageField = (key === 'ncrO' || key === 'ncrE') ? 'ncrAvgAge' : (key === 'carO' || key === 'carE') ? 'carAvgAge' : null;
-  const ageTile = ageField ? tile(d[ageField]+' วัน', 'ค้างเฉลี่ย', heatLevel(d[ageField], 10, 20)) : '';
+  if(cfg.isDoc){
+    return renderDocTrackerCards(d, key);
+  }
+  const open = cfg.open(d), closed = cfg.closed ? cfg.closed(d) : 0;
   return `<span class="disc-wrap-lbl">${cfg.label} (${d.p}):</span>
     ${tile(open, 'ค้าง', openRateLevel(open, closed))}
     ${tile(closed, 'ปิดแล้ว', null)}
-    ${tile(open+closed, 'ทั้งหมด', null)}
-    ${ageTile}
-    <span class="rate-note">สีของ "ค้าง" คำนวณจาก % ค้าง = ${open} ÷ (${open}+${closed}) × 100 = ${pct}% ของยอดที่เคยเปิดทั้งหมด (ไม่ใช่จำนวนดิบ) · เกณฑ์: &lt;${RATE_MID}%=ปกติ, ${RATE_MID}–${RATE_HI-1}%=เฝ้าระวัง, ≥${RATE_HI}%=ต้องรีบดู</span>`;
+    ${tile(open+closed, 'ทั้งหมด', null)}`;
 }
 
 const openColKey = {};
@@ -780,7 +1028,7 @@ function renderTable(list){
     <td>${mchip(d,'draw')}</td>
     <td>${mchip(d,'itp')}</td>
     <td>${mchip(d,'rfi')}</td>
-    <td><span class="chip chip-none">${d.itr}</span></td>
+    <td>${mchip(d,'itr')}</td>
     <td>${mchip(d,'ncrO')}</td>
     <td>${mchip(d,'ncrE')}</td>
     <td>${mchip(d,'carO')}</td>
@@ -861,7 +1109,7 @@ sortSelect.addEventListener('change', applyFilters);
 // กดที่ก้อนตัวเลข เพื่อขยายดูแยกรายโครงการ — เหมือน Drawing/Discipline
 const kpiFns = {
   base: d => d.draw.actual,
-  ctrl: d => d.rfiOpen+d.rfiClosed+d.itr+itpTotal(d),
+  ctrl: d => d.rfiOpen+d.rfiClosed+(d.docs&&d.docs.itr?d.docs.itr.submitted:d.itr)+itpTotal(d),
   corr: d => d.ncrO+d.ncrOc+d.ncrE+d.ncrEc+d.carO+d.carOc+d.carE+d.carEc,
   chg:  d => d.fcrClosed+d.fcrOpen+d.dcrClosed+d.dcrOpen+d.voClosed+d.voOpen,
   comp: d => d.a+d.b,
@@ -882,6 +1130,33 @@ function renderKpiRow(){
     + kpi('chg','k-chg','④')
     + kpi('comp','k-comp','⑤')
     + kpi('sum','k-sum','Σ');
+}
+
+// ยอด "ค้าง" รวมทุกโครงการ ต่อประเภทเอกสาร + รวมต่อกลุ่ม (โชว์ในแถว tr.tot และป้ายหัวกลุ่ม)
+// ค้าง: RFI/ITR/NCR/CAR/FCR/DCR/VO = colDefs[...].open (In Process) · Punchlist/เกินกำหนด = ยอดค้างอยู่แล้ว
+//       ITP = สาขาที่ยังไม่ส่ง (3 − ส่งแล้ว) · Drawing = แผน − ที่มีแล้ว (ไม่นับส่วนที่เกินแผน)
+const pendFns = {
+  draw: d => Math.max(0, d.draw.plan - d.draw.actual),
+  itp:  d => 3 - itpTotal(d),
+};
+['rfi','itr','ncrO','ncrE','carO','carE','fcr','dcr','vo','puncha','punchb','overdue'].forEach(k => { pendFns[k] = colDefs[k].open; });
+const pendCols = [ // [key, กลุ่ม] ตามลำดับคอลัมน์ในตาราง
+  ['draw','base'], ['itp','ctrl'], ['rfi','ctrl'], ['itr','ctrl'],
+  ['ncrO','corr'], ['ncrE','corr'], ['carO','corr'], ['carE','corr'],
+  ['fcr','chg'], ['dcr','chg'], ['vo','chg'], ['puncha','comp'], ['punchb','comp'], ['overdue','more'],
+];
+function renderPendingTotals(){
+  const row = document.getElementById('totRow');
+  if(!row) return;
+  const grp = {base:0, ctrl:0, corr:0, chg:0, comp:0};
+  const cells = pendCols.map(([key, g]) => {
+    const fn = pendFns[key];
+    const sum = data.reduce((s,d) => s + fn(d), 0);
+    if(g in grp) grp[g] += sum;
+    return `<td class="tot-${g}">${sum.toLocaleString()}</td>`;
+  });
+  row.innerHTML = `<td class="tot-lbl">ค้างรวม<span>ทุกโปรเจกต์</span></td>` + cells.join('');
+  document.querySelectorAll('.grp-pend').forEach(el => { el.textContent = 'ค้าง ' + grp[el.dataset.grp].toLocaleString(); });
 }
 
 let activeKpiCat = null;
@@ -1119,6 +1394,7 @@ function ensureTrendTooltip(){
 }
 
 renderKpiRow();
+renderPendingTotals();
 applyFilters();
 </script>
 
