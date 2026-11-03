@@ -473,7 +473,7 @@
     }
 
     colgroup col.c-overdue {
-      width: 6.5%;
+      width: 7%;
     }
 
     /* แถวหัวกลุ่มบนสุด (Baseline/Control/Corrective/Change/Complete) — เพิ่มเหนือแถวชื่อคอลัมน์ย่อย สีพื้นเดียวกับกลุ่ม */
@@ -608,6 +608,8 @@
 
     thead tr.sub th.th-more {
       background: var(--ink-dim);
+      white-space: nowrap;
+      word-break: normal;
     }
 
     /* ป้าย "Overdue N" ในแถบหัวกลุ่ม + แถวสรุป "Overdue รวมทุกโปรเจกต์" ใต้หัวคอลัมน์ — รวมทั้ง 8 โครงการ */
@@ -2246,8 +2248,7 @@
               <span>เรียงตาม</span>
               <select id="sortSelect">
                 <option value="status">สถานะรวม — แย่สุดก่อน (CRITICAL → ON TRACK)</option>
-                <option value="pending">เอกสารค้างทั้งหมด — เยอะสุดก่อน</option>
-                <option value="overdue">เอกสาร Overdue — เยอะสุดก่อน</option>
+                <option value="overdue">Total Overdue — เยอะสุดก่อน</option>
                 <option value="drawing">Drawing ตามหลังแผน — ตามมากสุดก่อน</option>
                 <option value="site">หน้างานตามหลังแผน (S-Curve) — ตามมากสุดก่อน</option>
                 <option value="name">ชื่อ/รหัสไซต์โครงการ (A-Z)</option>
