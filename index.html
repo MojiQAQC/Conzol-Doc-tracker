@@ -924,6 +924,39 @@
       color: var(--ink-dim);
     }
 
+    .pending-chip .pc-sub {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--ink-dim);
+      margin-top: 1px;
+      white-space: nowrap;
+      letter-spacing: normal;
+    }
+
+    .pending-chip.pending-proc .pc-sub {
+      color: #008ac9;
+    }
+
+    .pending-chip.pending-low .pc-sub {
+      color: #15803d;
+    }
+
+    .pending-chip.pending-high .pc-sub {
+      color: #b91c1c;
+    }
+
+    :root[data-theme="dark"] .pending-chip.pending-proc .pc-sub {
+      color: #38bdf8;
+    }
+
+    :root[data-theme="dark"] .pending-chip.pending-low .pc-sub {
+      color: #4ade80;
+    }
+
+    :root[data-theme="dark"] .pending-chip.pending-high .pc-sub {
+      color: #f87171;
+    }
+
     .pending-chip.pending-none {
       opacity: .55;
     }
@@ -2338,15 +2371,14 @@
             </table>
           </div>
           <div class="foot-note">
-            ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO/Punchlist = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น (รวม In
-            Process + Approved ทั้งหมด ไม่จำกัดว่าส่งทาง Submittal หรือ Transmittal ไม่ใช่แค่ที่ยังค้าง) ส่วน ITP =
+            ตัวเลขในกรอบคอลัมน์ RFI/ITR/NCR/CAR/FCR/DCR/VO/Punchlist = <b>จำนวนเอกสารทั้งหมด (Total)</b> ของประเภทนั้น ซึ่งเท่ากับ <b>In Process (ยังไม่เกิน Due) + Over Due (เกินกำหนด) + Approved (อนุมัติแล้ว)</b> ส่วน ITP =
             <b>จำนวนสาขาที่ส่งแล้ว</b> (สูงสุด 3 — ME/CE/EE ส่งได้สาขาละ 1 ใบเท่านั้น ไม่มีสีเตือน)
             กดขยายดูว่าสาขาไหนยังไม่ส่งได้ · กดปุ่ม <span
               class="expand-btn" style="width:14px;height:14px;vertical-align:middle;"><svg width="8" height="8"
                 viewBox="0 0 10 10">
                 <path d="M2 3.2L5 6.3L8 3.2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"
                   stroke-linejoin="round" />
-              </svg></span> ข้างตัวเลขเพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Approved, Over Due)<br>
+              </svg></span> ข้างตัวเลขเพื่อดูรายละเอียดการติดตามเอกสาร (Total, In Process, Over Due, Approved)<br>
             แถว <b>Overdue รวม</b> ใต้หัวคอลัมน์ และป้าย <b>Overdue N</b> ที่หัวกลุ่ม =
             <b>ยอดเอกสารค้าง/เกินกำหนดและยังไม่ approved (In Process)</b> รวมทั้ง 8 โครงการ (ไม่เปลี่ยนตาม search/filter)
             บวกกันแนวนอนได้ตรงกับคอลัมน์ Total Overdue พอดี · ส่วนเอกสารในตารางแต่ละแถวเป็นยอด Total เอกสารทั้งหมด ·
@@ -2617,14 +2649,16 @@
     function renderDocTrackerCards(d, key) {
       const cfg = colDefs[key];
       const { registered, submitted, inProcess, approved, overdue } = getDocStats(d, key);
+      const inProcessWithinDue = Math.max(0, inProcess - overdue);
+      const unit = key === 'punch' ? 'รายการ' : 'ฉบับ';
       const noteExtra = key === 'punch'
-        ? `Total = In Process (${inProcess}) + Approved (${approved}) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีรายการค้างเกินกำหนด (Due Date) เกิน 3 รายการ`
-        : `Total = In Process (${inProcess}) + Approved (${approved}) (รวมทั้ง Submittal และ Transmittal) · ช่อง Over Due จะขึ้นสีแดงเฉพาะเมื่อมีเอกสารค้างเกินกำหนด (Due Date) เกิน 3 ฉบับ`;
+        ? `Total (${submitted}) = อยู่ในกระบวนการยังไม่เกิน Due (${inProcessWithinDue}) + Over Due (${overdue}) + Approved (${approved}) · รวมรายการที่อยู่ในกระบวนการทั้งหมด ${inProcess} ${unit}`
+        : `Total (${submitted}) = อยู่ในกระบวนการยังไม่เกิน Due (${inProcessWithinDue}) + Over Due (${overdue}) + Approved (${approved}) (รวมทั้ง Submittal และ Transmittal) · รวมเอกสารที่อยู่ในกระบวนการทั้งหมด ${inProcess} ${unit}`;
       return `<span class="disc-wrap-lbl">${cfg.label} (${d.p}):</span>
     ${tile(submitted, 'Total', null)}
-    ${tile(inProcess, 'In Process', inProcess > 0 ? 'proc' : 'none')}
-    ${tile(approved, 'Approved', approved > 0 ? 'low' : null)}
-    ${tile(overdue, 'Over Due', overdue > 0 ? 'high' : null)}
+    ${tile(inProcessWithinDue, 'In Process', inProcessWithinDue > 0 ? 'proc' : 'none', 'ยังไม่เกิน Due')}
+    ${tile(overdue, 'Over Due', overdue > 0 ? 'high' : null, 'เกินกำหนด')}
+    ${tile(approved, 'Approved', approved > 0 ? 'low' : null, 'อนุมัติแล้ว')}
     <span class="rate-note">${noteExtra}</span>`;
     }
 
@@ -2746,8 +2780,9 @@
       draw: { label: 'Drawing', custom: 'draw' },
     };
 
-    function tile(val, label, lvl) {
-      return `<div class="pending-chip${lvl ? ' pending-' + lvl : ''}"><span class="pc-val">${val}</span><span class="pc-lbl">${label}</span></div>`;
+    function tile(val, label, lvl, sublbl) {
+      const sub = sublbl ? `<span class="pc-sub">${sublbl}</span>` : '';
+      return `<div class="pending-chip${lvl ? ' pending-' + lvl : ''}"><span class="pc-val">${val}</span><span class="pc-lbl">${label}</span>${sub}</div>`;
     }
 
     function mchip(d, key) {
@@ -2775,7 +2810,8 @@
         const val = s.submitted;
         const lvl = inProcessDocLevel(s);
         const blink = s.overdue > 3 ? ' chip-blink' : '';
-        const tooltip = `${cfg.label} (${d.p}): Total ${s.submitted} | In Process ${s.inProcess} | Approved ${s.approved} | Over Due ${s.overdue}`;
+        const onTrack = Math.max(0, s.inProcess - s.overdue);
+        const tooltip = `${cfg.label} (${d.p}): Total ${s.submitted} = In Process ${onTrack} + Over Due ${s.overdue} + Approved ${s.approved} (รวมในกระบวนการ ${s.inProcess})`;
         return `<div class="mchip" title="${tooltip}"><span class="chip chip-${lvl}${blink}">${val}</span>${btn}</div>`;
       }
       const open = cfg.open(d);
